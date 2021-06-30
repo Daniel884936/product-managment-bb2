@@ -4,9 +4,7 @@ import com.productmanagment.productmanagment.dtos.ProductDTO;
 import com.productmanagment.productmanagment.services.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,9 +15,8 @@ public class ProductController {
     @Autowired
     private ProductServiceImpl productService;
 
-
     @GetMapping
-    public ResponseEntity getAllProducts(){
+    public ResponseEntity getAll(){
         List<ProductDTO> productDTOS = productService.getAll();
         return ResponseEntity.ok(productDTOS);
     }
@@ -30,4 +27,16 @@ public class ProductController {
         return ResponseEntity.ok(productDTO);
     }
 
+    @PostMapping
+    public ResponseEntity post(@RequestBody ProductDTO productDTO){
+        productService.add(productDTO);
+        return ResponseEntity.ok(productDTO);
+    }
+
+
+    @PutMapping
+    public ResponseEntity update(@RequestBody ProductDTO productDTO){
+        productService.update(productDTO);
+        return ResponseEntity.ok(productDTO);
+    }
 }
