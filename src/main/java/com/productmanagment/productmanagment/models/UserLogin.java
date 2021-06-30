@@ -11,13 +11,17 @@ public class UserLogin {
     @GeneratedValue
     @Column(name = "user_login_id")
     private  Long userLoginId;
+
     @NotNull
     private String passWord;
+
     @NotNull
     @Column(unique = true)
     private String userName;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
+    @JoinColumn(name = "user_id")
     private  User user;
 
     @NotNull

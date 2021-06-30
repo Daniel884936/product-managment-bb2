@@ -14,7 +14,7 @@ public class Country {
     private  Long countryId;
     @NotNull
     private String name;
-    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Supplier> suppliers;
 
     public Long getCountryId() {

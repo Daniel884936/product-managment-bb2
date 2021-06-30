@@ -6,12 +6,14 @@ import java.util.Date;
 
 @Entity(name = "product_reduction_price")
 public class ProductReductionPrice {
+
     @Id
     @GeneratedValue
     @Column(name = "product_reduction_price_id")
     private Long productReductionPriceId;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
     @NotNull
     private Product product;
 

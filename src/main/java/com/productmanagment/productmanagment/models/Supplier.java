@@ -6,6 +6,7 @@ import java.util.Set;
 
 @Entity(name = "supplier")
 public class Supplier {
+
     @Id
     @GeneratedValue
     @Column(name = "supplier_id")

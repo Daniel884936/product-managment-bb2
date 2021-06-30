@@ -11,14 +11,17 @@ public class User {
     @GeneratedValue
     @Column(name = "user_id")
     private  Long userId;
+
     @NotNull
     private String name;
+
     @NotNull
     private  String surnames;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
     private Set<Product> products;
-    @OneToMany(mappedBy = "user_login", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
     private Set<UserLogin> userLogins;
 
     public Set<UserLogin> getUserLogins() {

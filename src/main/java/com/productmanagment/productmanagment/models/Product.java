@@ -30,9 +30,10 @@ public class Product {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User creator;
 
-    @OneToMany(mappedBy = "product_reduction_price", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
     private List<ProductReductionPrice> productReductionPrice;
 
     @ManyToMany(mappedBy = "products",fetch = FetchType.EAGER)
