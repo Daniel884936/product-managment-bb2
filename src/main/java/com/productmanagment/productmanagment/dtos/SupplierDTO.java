@@ -1,16 +1,22 @@
-package com.productmanagment.productmanagment.DTOs;
+package com.productmanagment.productmanagment.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
 import java.util.Set;
 
 public class SupplierDTO {
 
+    @JsonProperty(value = "id")
     private  Long supplierId;
+
     @NotNull
     private  String name;
 
     private Set<ProductDTO> productDTOS;
+
     @NotNull
+    @JsonProperty(value = "country")
     private CountryDTO  countryDTO;
 
     public Long getSupplierId() {
@@ -29,6 +35,7 @@ public class SupplierDTO {
         return countryDTO;
     }
 
+    @JsonIgnore
     public void setSupplierId(Long supplierId) {
         this.supplierId = supplierId;
     }

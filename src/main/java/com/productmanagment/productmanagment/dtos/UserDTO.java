@@ -1,17 +1,22 @@
-package com.productmanagment.productmanagment.DTOs;
+package com.productmanagment.productmanagment.dtos;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
 import java.util.Set;
 
 public class UserDTO {
 
+    @JsonProperty(value = "id")
     private  Long userId;
     @NotNull
     private String name;
     @NotNull
     private  String surnames;
 
+    @JsonProperty(value = "products")
     private Set<ProductDTO> productDTOS;
 
+    @JsonProperty(value = "userLogin")
     private Set<UserLoginDTO> userLoginDTOS;
 
     public Long getUserId() {
@@ -34,6 +39,7 @@ public class UserDTO {
         return userLoginDTOS;
     }
 
+    @JsonIgnore
     public void setUserId(Long userId) {
         this.userId = userId;
     }

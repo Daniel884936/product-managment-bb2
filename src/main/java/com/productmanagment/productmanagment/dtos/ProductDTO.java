@@ -1,5 +1,9 @@
-package com.productmanagment.productmanagment.DTOs;
+package com.productmanagment.productmanagment.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.productmanagment.productmanagment.dtos.ProductReductionPriceDTO;
+import com.productmanagment.productmanagment.dtos.SupplierDTO;
 import com.productmanagment.productmanagment.models.ProductState;
 import com.sun.istack.NotNull;
 
@@ -8,6 +12,7 @@ import java.util.*;
 
 public class ProductDTO {
 
+    @JsonProperty(value = "id")
     private Long productId;
 
     private Long code;
@@ -21,10 +26,13 @@ public class ProductDTO {
 
     private Double Price;
 
+    @JsonProperty(value = "ProductReductionPrice")
     private List<ProductReductionPriceDTO> productReductionPriceDTOS;
 
+    @JsonProperty(value = "supplier")
     private List<SupplierDTO> supplierDTOS;
 
+    @JsonProperty(value = "productState")
     @Enumerated(EnumType.STRING)
     private ProductState state;
 
@@ -64,6 +72,7 @@ public class ProductDTO {
         return state;
     }
 
+    @JsonIgnore
     public void setProductId(Long productId) {
         this.productId = productId;
     }
@@ -80,6 +89,7 @@ public class ProductDTO {
         this.description = description;
     }
 
+    @JsonIgnore
     public void setCreationDate( Date creationDate) {
         this.creationDate = creationDate;
     }

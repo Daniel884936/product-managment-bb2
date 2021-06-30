@@ -1,5 +1,7 @@
-package com.productmanagment.productmanagment.DTOs;
+package com.productmanagment.productmanagment.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.productmanagment.productmanagment.models.Rol;
 import com.sun.istack.NotNull;
 
@@ -8,6 +10,7 @@ import javax.persistence.Enumerated;
 
 public class UserLoginDTO {
 
+    @JsonProperty(value = "id")
     private  Long userLoginId;
     @NotNull
     private String passWord;
@@ -21,6 +24,7 @@ public class UserLoginDTO {
         return userLoginId;
     }
 
+    @JsonIgnore
     public String getPassWord() {
         return passWord;
     }
@@ -29,6 +33,7 @@ public class UserLoginDTO {
         return userName;
     }
 
+    @JsonIgnore
     public void setUserLoginId(Long userLoginId) {
         this.userLoginId = userLoginId;
     }

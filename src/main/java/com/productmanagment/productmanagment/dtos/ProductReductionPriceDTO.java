@@ -1,10 +1,13 @@
-package com.productmanagment.productmanagment.DTOs;
+package com.productmanagment.productmanagment.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
 import java.util.Date;
 
 public class ProductReductionPriceDTO {
 
+    @JsonProperty(value = "id")
     private Long productReductionPriceId;
 
     @NotNull
@@ -16,6 +19,7 @@ public class ProductReductionPriceDTO {
     @NotNull
     private Double ReducedPrice;
 
+    @JsonIgnore
     public Long getProductReductionPriceId() {
         return productReductionPriceId;
     }
