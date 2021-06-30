@@ -18,23 +18,23 @@ public class ApiError {
         this.timestamp = LocalDateTime.now();
     }
 
-    ApiError(HttpStatus httpStatus){
+    public ApiError(HttpStatus httpStatus){
         this();
         httpStatus = httpStatus;
     }
 
-    ApiError(HttpStatus httpStatus, Throwable ex){
+    public  ApiError(HttpStatus httpStatus, Throwable ex){
         this();
         this.httpStatus = httpStatus;
         this.message  = "Unexpected error";
         this.debugMessage = ex.getLocalizedMessage();
     }
 
-    ApiError(HttpStatus httpStatus, String message,Throwable ex){
+     public ApiError(HttpStatus httpStatus, String message,Throwable debugMessage){
         this();
         this.httpStatus = httpStatus;
         this.message  = message;
-        this.debugMessage = ex.getLocalizedMessage();
+        this.debugMessage = debugMessage.getLocalizedMessage();
     }
 
 

@@ -36,7 +36,7 @@ public class ProductServiceImpl implements  ProductService{
     //TODO validate product reduction price and product price
     @Override
     public void update(ProductDTO productDTO) {
-        Product productFromDb = productRepository.findProductByCodeOrId(productDTO.getProductId(), productDTO.getCode());
+        Product productFromDb = productRepository.findProductByCodeOrId( productDTO.getCode(), productDTO.getProductId());
         if(productFromDb==null){
             //TODO complete this case. throw or return
         }
@@ -52,6 +52,8 @@ public class ProductServiceImpl implements  ProductService{
 
     @Override
     public List<ProductDTO> getAll() {
+        //To test
+
         List<Product> products = productRepository.findAll();
         List<ProductDTO> productDTOS = products.stream().map(product ->
                                         modelMapper.map(product,ProductDTO.class)).collect(Collectors.toList());
