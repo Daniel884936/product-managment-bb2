@@ -4,11 +4,11 @@ import com.sun.istack.NotNull;
 import javax.persistence.*;
 import java.util.Date;
 
-@Table(name = "product_reduction_price")
+@Entity(name = "product_reduction_price")
 public class ProductReductionPrice {
     @Id
     @GeneratedValue
-    @Column(name = "productreductionprice_id")
+    @Column(name = "product_reduction_price_id")
     private Long productReductionPriceId;
 
     @ManyToOne(fetch = FetchType.LAZY)

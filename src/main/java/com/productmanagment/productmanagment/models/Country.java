@@ -3,8 +3,9 @@ package com.productmanagment.productmanagment.models;
 import com.sun.istack.NotNull;
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
-@Table(name = "country")
+@Entity(name = "country")
 public class Country {
 
     @Id
@@ -14,7 +15,7 @@ public class Country {
     @NotNull
     private String name;
     @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Supplier> suppliers;
+    private Set<Supplier> suppliers;
 
     public Long getCountryId() {
         return countryId;
@@ -24,7 +25,7 @@ public class Country {
         return name;
     }
 
-    public List<Supplier> getSuppliers() {
+    public Set<Supplier> getSuppliers() {
         return suppliers;
     }
 
@@ -36,7 +37,7 @@ public class Country {
         this.name = name;
     }
 
-    public void setSuppliers(List<Supplier> suppliers) {
+    public void setSuppliers(Set<Supplier> suppliers) {
         this.suppliers = suppliers;
     }
 }

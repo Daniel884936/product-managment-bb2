@@ -4,7 +4,7 @@ import com.sun.istack.NotNull;
 import javax.persistence.*;
 import java.util.Set;
 
-@Table(name = "supplier")
+@Entity(name = "supplier")
 public class Supplier {
     @Id
     @GeneratedValue

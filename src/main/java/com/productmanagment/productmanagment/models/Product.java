@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 
-@Table(name = "product")
+@Entity(name = "product")
 public class Product {
 
     @Id
@@ -33,7 +33,7 @@ public class Product {
     private User creator;
 
     @OneToMany(mappedBy = "product_reduction_price", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
-    private Set<ProductReductionPrice> productReductionPrice;
+    private List<ProductReductionPrice> productReductionPrice;
 
     @ManyToMany(mappedBy = "products",fetch = FetchType.EAGER)
     private List<Supplier> suppliers;
@@ -106,7 +106,7 @@ public class Product {
         return creator;
     }
 
-    public Set<ProductReductionPrice> getProductReductionPrice() {
+    public List<ProductReductionPrice> getProductReductionPrice() {
         return productReductionPrice;
     }
 
@@ -114,7 +114,7 @@ public class Product {
         return suppliers;
     }
 
-    public void setProductReductionPrice(Set<ProductReductionPrice> productReductionPrice) {
+    public void setProductReductionPrice(List<ProductReductionPrice> productReductionPrice) {
         this.productReductionPrice = productReductionPrice;
     }
 

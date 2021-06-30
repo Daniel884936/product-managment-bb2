@@ -2,12 +2,9 @@ package com.productmanagment.productmanagment.DTOs;
 
 import com.productmanagment.productmanagment.models.ProductState;
 import com.sun.istack.NotNull;
-import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class ProductDTO {
 
@@ -24,7 +21,7 @@ public class ProductDTO {
 
     private Double Price;
 
-    private Set<ProductReductionPriceDTO> productReductionPriceDTOS;
+    private List<ProductReductionPriceDTO> productReductionPriceDTOS;
 
     private List<SupplierDTO> supplierDTOS;
 
@@ -55,7 +52,7 @@ public class ProductDTO {
         return Price;
     }
 
-    public Set<ProductReductionPriceDTO> getProductReductionPriceDTOS() {
+    public List<ProductReductionPriceDTO> getProductReductionPriceDTOS() {
         return productReductionPriceDTOS;
     }
 
@@ -91,7 +88,7 @@ public class ProductDTO {
         Price = price;
     }
 
-    public void setProductReductionPriceDTOS(Set<ProductReductionPriceDTO> productReductionPriceDTOS) {
+    public void setProductReductionPriceDTOS(List<ProductReductionPriceDTO> productReductionPriceDTOS) {
         this.productReductionPriceDTOS = productReductionPriceDTOS;
     }
 
@@ -101,5 +98,10 @@ public class ProductDTO {
 
     public void setState(ProductState state) {
         this.state = state;
+    }
+
+    public ProductDTO() {
+
+
     }
 }
