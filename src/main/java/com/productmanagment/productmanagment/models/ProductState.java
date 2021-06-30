@@ -5,6 +5,5 @@ public enum ProductState {
     DISCONTINUED(2,"Discontinued");
 
     ProductState(int i, String discontinued) {
-
     }
 }

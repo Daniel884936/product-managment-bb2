@@ -1,6 +1,6 @@
 package com.productmanagment.productmanagment.models;
 
-import org.springframework.lang.NonNull;
+import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -17,18 +17,18 @@ public class Product {
     private Long productId;
 
     @Column(unique = true)
-    @NonNull
+    @NotNull
     private Long code;
-    @NonNull
+    @NotNull
     private String name;
 
     private String description;
-    @NonNull
+    @NotNull
     private Date creationDate;
-    @NonNull
+    @NotNull
     private Double Price;
 
-    @NonNull
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private User creator;
 
@@ -38,6 +38,17 @@ public class Product {
     @ManyToMany(mappedBy = "products",fetch = FetchType.EAGER)
     private List<Supplier> suppliers;
 
+    @NotNull
+    @Enumerated(EnumType.ORDINAL)
+    private ProductState state;
+
+    public void setState(ProductState state) {
+        this.state = state;
+    }
+
+    public ProductState getState() {
+        return state;
+    }
 
     public void setProductId(Long productId) {
         this.productId = productId;

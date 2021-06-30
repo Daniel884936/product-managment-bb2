@@ -1,7 +1,6 @@
 package com.productmanagment.productmanagment.models;
 
-import org.springframework.lang.NonNull;
-
+import com.sun.istack.NotNull;
 import javax.persistence.*;
 import java.util.List;
 
@@ -12,7 +11,7 @@ public class Country {
     @GeneratedValue
     @Column(name = "country_id")
     private  Long countryId;
-    @NonNull
+    @NotNull
     private String name;
     @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Supplier> suppliers;

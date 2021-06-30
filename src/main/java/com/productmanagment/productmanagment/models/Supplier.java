@@ -1,7 +1,6 @@
 package com.productmanagment.productmanagment.models;
 
-import org.springframework.lang.NonNull;
-
+import com.sun.istack.NotNull;
 import javax.persistence.*;
 import java.util.Set;
 
@@ -11,7 +10,7 @@ public class Supplier {
     @GeneratedValue
     @Column(name = "supplier_id")
     private  Long supplierId;
-    @NonNull
+    @NotNull
     private  String name;
 
     @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
@@ -22,7 +21,7 @@ public class Supplier {
     )
     private Set<Product> products;
 
-    @NonNull
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
     private Country country;

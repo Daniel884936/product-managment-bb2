@@ -1,6 +1,6 @@
 package com.productmanagment.productmanagment.models;
 
-import org.springframework.lang.NonNull;
+import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 
@@ -11,14 +11,26 @@ public class UserLogin {
     @GeneratedValue
     @Column(name = "user_login_id")
     private  Long userLoginId;
-    @NonNull
+    @NotNull
     private String passWord;
-    @NonNull
+    @NotNull
     @Column(unique = true)
     private String userName;
     @ManyToOne(fetch = FetchType.LAZY)
-    @NonNull
+    @NotNull
     private  User user;
+
+    @NotNull
+    @Enumerated(EnumType.ORDINAL)
+    private Rol rol;
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
 
     public void setUserLoginId(Long userLoginId) {
         this.userLoginId = userLoginId;

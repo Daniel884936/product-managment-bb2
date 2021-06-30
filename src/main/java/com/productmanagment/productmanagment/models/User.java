@@ -1,7 +1,6 @@
 package com.productmanagment.productmanagment.models;
 
-import org.springframework.lang.NonNull;
-
+import com.sun.istack.NotNull;
 import javax.persistence.*;
 import java.util.Set;
 
@@ -12,9 +11,9 @@ public class User {
     @GeneratedValue
     @Column(name = "user_id")
     private  Long userId;
-    @NonNull
+    @NotNull
     private String name;
-    @NonNull
+    @NotNull
     private  String surnames;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)

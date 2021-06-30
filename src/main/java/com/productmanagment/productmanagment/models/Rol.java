@@ -5,6 +5,5 @@ public enum Rol {
     USER(2,"User");
 
     Rol(int i, String user) {
-
     }
 }

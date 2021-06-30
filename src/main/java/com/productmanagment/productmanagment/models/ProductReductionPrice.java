@@ -1,7 +1,6 @@
 package com.productmanagment.productmanagment.models;
 
-import org.springframework.lang.NonNull;
-
+import com.sun.istack.NotNull;
 import javax.persistence.*;
 import java.util.Date;
 
@@ -13,18 +12,18 @@ public class ProductReductionPrice {
     private Long productReductionPriceId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @NonNull
+    @NotNull
     private Product product;
 
-    @NonNull
+    @NotNull
     @Column(name = "start_date")
     private Date startDate;
 
-    @NonNull
+    @NotNull
     @Column(name = "end_date")
     private Date endDate;
 
-    @NonNull
+    @NotNull
     @Column(name = "reduced_price")
     private Double ReducedPrice;
 
