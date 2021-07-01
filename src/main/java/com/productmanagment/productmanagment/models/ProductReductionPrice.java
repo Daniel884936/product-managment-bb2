@@ -8,7 +8,8 @@ import java.util.Date;
 public class ProductReductionPrice {
 
     @Id
-    @GeneratedValue
+    //@GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_reduction_price_id")
     private Long productReductionPriceId;
 

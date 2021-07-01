@@ -2,8 +2,6 @@ package com.productmanagment.productmanagment.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.productmanagment.productmanagment.dtos.ProductReductionPriceDTO;
-import com.productmanagment.productmanagment.dtos.SupplierDTO;
 import com.productmanagment.productmanagment.models.ProductState;
 import com.sun.istack.NotNull;
 
@@ -22,19 +20,30 @@ public class ProductDTO {
     private String description;
     @NotNull
     private Date creationDate;
-    @NotNull
 
+    @NotNull
     private Double Price;
 
     @JsonProperty(value = "ProductReductionPrice")
-    private List<ProductReductionPriceDTO> productReductionPriceDTOS;
+    private List<ProductReductionPriceDTO> productReductionPrices;
 
     @JsonProperty(value = "supplier")
-    private List<SupplierDTO> supplierDTOS;
+    private List<SupplierDTO> suppliers;
 
     @JsonProperty(value = "productState")
     @Enumerated(EnumType.STRING)
     private ProductState state;
+
+    @NotNull
+    private  Long userId;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public Long getProductId() {
         return productId;
@@ -60,12 +69,12 @@ public class ProductDTO {
         return Price;
     }
 
-    public List<ProductReductionPriceDTO> getProductReductionPriceDTOS() {
-        return productReductionPriceDTOS;
+    public List<ProductReductionPriceDTO> getProductReductionPrices() {
+        return productReductionPrices;
     }
 
-    public List<SupplierDTO> getSupplierDTOS() {
-        return supplierDTOS;
+    public List<SupplierDTO> getSuppliers() {
+        return suppliers;
     }
 
     public ProductState getState() {
@@ -98,12 +107,12 @@ public class ProductDTO {
         Price = price;
     }
 
-    public void setProductReductionPriceDTOS(List<ProductReductionPriceDTO> productReductionPriceDTOS) {
-        this.productReductionPriceDTOS = productReductionPriceDTOS;
+    public void setProductReductionPrices(List<ProductReductionPriceDTO> productReductionPrices) {
+        this.productReductionPrices = productReductionPrices;
     }
 
-    public void setSupplierDTOS(List<SupplierDTO> supplierDTOS) {
-        this.supplierDTOS = supplierDTOS;
+    public void setSuppliers(List<SupplierDTO> suppliers) {
+        this.suppliers = suppliers;
     }
 
     public void setState(ProductState state) {

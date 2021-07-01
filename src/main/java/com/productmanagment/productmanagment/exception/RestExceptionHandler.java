@@ -18,14 +18,33 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
+   /* @ExceptionHandler(Exception.class)
     public  ResponseEntity<ApiError>handleAllException(Exception ex, WebRequest webRequest){
         ApiError apiExceptionResponse = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex);
         return  new ResponseEntity<ApiError>(apiExceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    }*/
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ApiError> handleBadRequestException(Exception ex, WebRequest webRequest) {
+        ApiError apiExceptionResponse = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
+        return  new ResponseEntity<ApiError>(apiExceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<ApiError> handleConflictException(Exception ex, WebRequest webRequest) {
+        ApiError apiExceptionResponse = new ApiError(HttpStatus.CONFLICT, ex.getMessage(), ex);
+        return  new ResponseEntity<ApiError>(apiExceptionResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ApiError> handleNotFoundException(Exception ex, WebRequest webRequest) {
+        ApiError apiExceptionResponse = new ApiError(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+        return  new ResponseEntity<ApiError>(apiExceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
+    //TODO this way  is most declarative
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ApiError> handleBusinessException(Exception ex, WebRequest webRequest) {
         ApiError apiExceptionResponse = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
         return  new ResponseEntity<ApiError>(apiExceptionResponse, HttpStatus.BAD_REQUEST);
     }

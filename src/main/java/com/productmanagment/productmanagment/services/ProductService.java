@@ -13,5 +13,4 @@ public interface ProductService  {
     public ProductDTO getById(Long id);
 
     public List<ProductDTO> getAll();
-
 }

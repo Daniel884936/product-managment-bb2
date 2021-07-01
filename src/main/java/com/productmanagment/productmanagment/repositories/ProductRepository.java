@@ -3,7 +3,6 @@ package com.productmanagment.productmanagment.repositories;
 import com.productmanagment.productmanagment.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,9 +13,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    @Query(value = "select * from Product p where p.code = :code or p.product_id = :id", nativeQuery = true)
-    public Product findProductByCodeOrId(@Param("code") Long code, @Param("id") Long id);
+    @Query(value = "select * from Product p where p.code =?1 or p.product_id =?2", nativeQuery = true)
+    public Product findProductByCodeOrId( Long code, Long id);
 
-    @Query(value= "select * from Product p where p.code = :code", nativeQuery = true)
-    public Product findProductByCode(@Param("code") Long code);
+    @Query(value= "select * from Product p where p.code = ?1", nativeQuery = true)
+    public Product findProductByCode( Long code);
 }

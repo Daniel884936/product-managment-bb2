@@ -8,7 +8,8 @@ import java.util.Set;
 public class Supplier {
 
     @Id
-    @GeneratedValue
+    //@GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "supplier_id")
     private  Long supplierId;
     @NotNull

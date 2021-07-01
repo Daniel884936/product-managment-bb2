@@ -8,7 +8,8 @@ import javax.persistence.*;
 public class UserLogin {
 
     @Id
-    @GeneratedValue
+    //@GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_login_id")
     private  Long userLoginId;
 

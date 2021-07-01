@@ -14,10 +14,10 @@ public class UserDTO {
     private  String surnames;
 
     @JsonProperty(value = "products")
-    private Set<ProductDTO> productDTOS;
+    private Set<ProductDTO> products;
 
     @JsonProperty(value = "userLogin")
-    private Set<UserLoginDTO> userLoginDTOS;
+    private Set<UserLoginDTO> userLogins;
 
     public Long getUserId() {
         return userId;
@@ -31,12 +31,12 @@ public class UserDTO {
         return surnames;
     }
 
-    public Set<ProductDTO> getProductDTOS() {
-        return productDTOS;
+    public Set<ProductDTO> getProducts() {
+        return products;
     }
 
-    public Set<UserLoginDTO> getUserLoginDTOS() {
-        return userLoginDTOS;
+    public Set<UserLoginDTO> getUserLogins() {
+        return userLogins;
     }
 
     @JsonIgnore
@@ -52,11 +52,11 @@ public class UserDTO {
         this.surnames = surnames;
     }
 
-    public void setProductDTOS(Set<ProductDTO> productDTOS) {
-        this.productDTOS = productDTOS;
+    public void setProducts(Set<ProductDTO> products) {
+        this.products = products;
     }
 
-    public void setUserLoginDTOS(Set<UserLoginDTO> userLoginDTOS) {
-        this.userLoginDTOS = userLoginDTOS;
+    public void setUserLogins(Set<UserLoginDTO> userLogins) {
+        this.userLogins = userLogins;
     }
 }

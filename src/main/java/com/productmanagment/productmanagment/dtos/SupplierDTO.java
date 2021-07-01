@@ -13,11 +13,11 @@ public class SupplierDTO {
     @NotNull
     private  String name;
 
-    private Set<ProductDTO> productDTOS;
+    private Set<ProductDTO> products;
 
     @NotNull
     @JsonProperty(value = "country")
-    private CountryDTO  countryDTO;
+    private CountryDTO country;
 
     public Long getSupplierId() {
         return supplierId;
@@ -27,12 +27,12 @@ public class SupplierDTO {
         return name;
     }
 
-    public Set<ProductDTO> getProductDTOS() {
-        return productDTOS;
+    public Set<ProductDTO> getProducts() {
+        return products;
     }
 
-    public CountryDTO getCountryDTO() {
-        return countryDTO;
+    public CountryDTO getCountry() {
+        return country;
     }
 
     @JsonIgnore
@@ -44,11 +44,11 @@ public class SupplierDTO {
         this.name = name;
     }
 
-    public void setProductDTOS(Set<ProductDTO> productDTOS) {
-        this.productDTOS = productDTOS;
+    public void setProducts(Set<ProductDTO> products) {
+        this.products = products;
     }
 
-    public void setCountryDTO( CountryDTO countryDTO) {
-        this.countryDTO = countryDTO;
+    public void setCountry(CountryDTO country) {
+        this.country = country;
     }
 }

@@ -3,16 +3,17 @@ package com.productmanagment.productmanagment.models;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity(name = "product")
 public class Product {
 
     @Id
-    @GeneratedValue
+    //@GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private Long productId;
 
@@ -25,6 +26,7 @@ public class Product {
     private String description;
     @NotNull
     private Date creationDate;
+
     @NotNull
     private Double Price;
 
@@ -34,7 +36,7 @@ public class Product {
     private User creator;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
-    private List<ProductReductionPrice> productReductionPrice;
+    private List<ProductReductionPrice> productReductionPrices;
 
     @ManyToMany(mappedBy = "products",fetch = FetchType.EAGER)
     private List<Supplier> suppliers;
@@ -107,16 +109,16 @@ public class Product {
         return creator;
     }
 
-    public List<ProductReductionPrice> getProductReductionPrice() {
-        return productReductionPrice;
+    public List<ProductReductionPrice> getProductReductionPrices() {
+        return productReductionPrices;
     }
 
     public List<Supplier> getSuppliers() {
         return suppliers;
     }
 
-    public void setProductReductionPrice(List<ProductReductionPrice> productReductionPrice) {
-        this.productReductionPrice = productReductionPrice;
+    public void setProductReductionPrices(List<ProductReductionPrice> productReductionPrices) {
+        this.productReductionPrices = productReductionPrices;
     }
 
     public void setSuppliers(List<Supplier> suppliers) {

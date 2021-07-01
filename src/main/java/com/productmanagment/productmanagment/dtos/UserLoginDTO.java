@@ -13,7 +13,7 @@ public class UserLoginDTO {
     @JsonProperty(value = "id")
     private  Long userLoginId;
     @NotNull
-    private String passWord;
+    private String password;
     @NotNull
     private String userName;
 
@@ -25,8 +25,8 @@ public class UserLoginDTO {
     }
 
     @JsonIgnore
-    public String getPassWord() {
-        return passWord;
+    public String getPassword() {
+        return password;
     }
 
     public String getUserName() {
@@ -38,8 +38,8 @@ public class UserLoginDTO {
         this.userLoginId = userLoginId;
     }
 
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setUserName(String userName) {
