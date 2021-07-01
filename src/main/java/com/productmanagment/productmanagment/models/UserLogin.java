@@ -13,11 +13,11 @@ public class UserLogin {
     private  Long userLoginId;
 
     @NotNull
-    private String passWord;
+    private String password;
 
     @NotNull
     @Column(unique = true)
-    private String userName;
+    private String username;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
@@ -40,12 +40,12 @@ public class UserLogin {
         this.userLoginId = userLoginId;
     }
 
-    public void setPassWord( String passWord) {
-        this.passWord = passWord;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public void setUserName( String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setUser(User user) {
@@ -56,12 +56,12 @@ public class UserLogin {
         return userLoginId;
     }
 
-    public String getPassWord() {
-        return passWord;
+    public String getPassword() {
+        return password;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
     public User getUser() {

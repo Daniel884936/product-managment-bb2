@@ -12,7 +12,7 @@ public class ApiError {
     private String debugMessage;
     private String message;
     private LocalDateTime timestamp;
-    private List<String> details;
+    //private List<String> details;
 
     private ApiError() {
         this.timestamp = LocalDateTime.now();
@@ -30,12 +30,26 @@ public class ApiError {
         this.debugMessage = ex.getLocalizedMessage();
     }
 
-     public ApiError(HttpStatus httpStatus, String message,Throwable debugMessage){
+     public ApiError(HttpStatus httpStatus, String message,Throwable ex){
         this();
         this.httpStatus = httpStatus;
         this.message  = message;
-        this.debugMessage = debugMessage.getLocalizedMessage();
+        this.debugMessage = ex.getLocalizedMessage();
     }
 
+    public HttpStatus getHttpStatus() {
+        return httpStatus;
+    }
 
+    public String getDebugMessage() {
+        return debugMessage;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
 }

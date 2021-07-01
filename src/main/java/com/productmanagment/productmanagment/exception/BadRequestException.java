@@ -1,14 +1,13 @@
 package com.productmanagment.productmanagment.exception;
 
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(value = HttpStatus.BAD_REQUEST)
 public class BadRequestException extends RuntimeException {
-    private String details;
 
-    public BadRequestException(String details) {
-        this.details = details;
+    public BadRequestException(String msg) {
+       super(msg);
     }
-
-    public String getDetails() {
-        return details;
-    }
-
 }

@@ -1,6 +1,7 @@
 package com.productmanagment.productmanagment.services;
 
 import com.productmanagment.productmanagment.dtos.ProductDTO;
+import com.productmanagment.productmanagment.exception.BadRequestException;
 import com.productmanagment.productmanagment.models.Product;
 import com.productmanagment.productmanagment.repositories.ProductRepository;
 import org.modelmapper.ModelMapper;
@@ -21,13 +22,16 @@ public class ProductServiceImpl implements  ProductService{
     @Autowired
     private ModelMapper modelMapper;
 
+    private final  String PRODUCT_DOES_NOT_EXIST  = "PRODUCT DOES NOT EXIST";
+    private final  String PRODUCT_EXIST  = "PRODUCT ALREADY EXIST";
+
     //TODO validate product reduction price and product price
     @Override
     public void add(ProductDTO productDTO) {
 
         Product productFromDb = productRepository.findProductByCode(productDTO.getCode());
-        if(productFromDb==null){
-            //TODO complete this case
+        if(productFromDb!=null){
+            throw new BadRequestException(PRODUCT_EXIST);
         }
         Product product = modelMapper.map(productDTO, Product.class);
         productRepository.save(product);
@@ -38,7 +42,7 @@ public class ProductServiceImpl implements  ProductService{
     public void update(ProductDTO productDTO) {
         Product productFromDb = productRepository.findProductByCodeOrId( productDTO.getCode(), productDTO.getProductId());
         if(productFromDb==null){
-            //TODO complete this case. throw or return
+            throw new BadRequestException(PRODUCT_DOES_NOT_EXIST);
         }
         Product product = modelMapper.map(productDTO, Product.class);
     }
@@ -52,8 +56,6 @@ public class ProductServiceImpl implements  ProductService{
 
     @Override
     public List<ProductDTO> getAll() {
-        //To test
-
         List<Product> products = productRepository.findAll();
         List<ProductDTO> productDTOS = products.stream().map(product ->
                                         modelMapper.map(product,ProductDTO.class)).collect(Collectors.toList());

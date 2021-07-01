@@ -8,6 +8,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -16,29 +17,16 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
-    @Override
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        return super.handleHttpMessageNotReadable(ex, headers, status, request);
-    }
 
+    @ExceptionHandler(Exception.class)
+    public  ResponseEntity<ApiError>handleAllException(Exception ex, WebRequest webRequest){
+        ApiError apiExceptionResponse = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex);
+        return  new ResponseEntity<ApiError>(apiExceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ApiError> handleBadRequestException(BadRequestException ex) {
-        return getResponseEntity(ex,"");
+    public ResponseEntity<ApiError> handleBadRequestException(Exception ex, WebRequest webRequest) {
+        ApiError apiExceptionResponse = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
+        return  new ResponseEntity<ApiError>(apiExceptionResponse, HttpStatus.BAD_REQUEST);
     }
-
-    private ResponseEntity<ApiError> getResponseEntity(RuntimeException ex, String detail){
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-
-        if(ex.getClass().isAnnotationPresent(ResponseStatus.class)){
-            status = ex.getClass().getAnnotation(ResponseStatus.class).value();
-        }
-        ApiError apiError = new ApiError(
-                status,
-                ex.getMessage(),
-                ex.getCause()
-        );
-        return new ResponseEntity<>(apiError,status);
-    }
-
 }
