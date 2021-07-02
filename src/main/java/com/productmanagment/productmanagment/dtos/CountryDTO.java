@@ -1,18 +1,19 @@
 package com.productmanagment.productmanagment.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.productmanagment.productmanagment.models.Supplier;
-import com.sun.istack.NotNull;
+import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
+@Data
 public class CountryDTO {
 
-    @JsonProperty(value = "id")
     private  Long countryId;
+
     @NotNull
+    @Length(max = 60)
     private String name;
 
     private List<SupplierDTO> suppliers;

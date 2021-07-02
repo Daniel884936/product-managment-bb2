@@ -1,26 +1,30 @@
 package com.productmanagment.productmanagment.dtos;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.productmanagment.productmanagment.models.ProductState;
+import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.*;
 
+@Data
 public class ProductDTO {
 
-    @JsonProperty(value = "id")
     private Long productId;
 
     @NotNull
     private Long code;
+
     @NotNull
+    @Length(min = 2, max = 30)
     private String name;
 
+    @Length( max = 60)
     private String description;
-    @NotNull
+
     private Date creationDate;
 
     @NotNull
@@ -30,6 +34,7 @@ public class ProductDTO {
 
     private List<SupplierDTO> suppliers;
 
+    @NotNull
     @JsonProperty(value = "productState")
     @Enumerated(EnumType.STRING)
     private ProductState state;
@@ -81,7 +86,7 @@ public class ProductDTO {
         return state;
     }
 
-    @JsonIgnore
+    //@JsonIgnore
     public void setProductId(Long productId) {
         this.productId = productId;
     }
@@ -98,7 +103,7 @@ public class ProductDTO {
         this.description = description;
     }
 
-    @JsonIgnore
+    //@JsonIgnore
     public void setCreationDate( Date creationDate) {
         this.creationDate = creationDate;
     }

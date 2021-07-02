@@ -1,8 +1,7 @@
 package com.productmanagment.productmanagment.models;
 
-import com.sun.istack.NotNull;
 import javax.persistence.*;
-import java.util.List;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity(name = "country")

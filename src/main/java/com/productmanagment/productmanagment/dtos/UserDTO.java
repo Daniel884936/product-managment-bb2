@@ -1,16 +1,21 @@
 package com.productmanagment.productmanagment.dtos;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sun.istack.NotNull;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 public class UserDTO {
 
-    @JsonProperty(value = "id")
     private  Long userId;
+
+    @Length(min = 2,max = 60)
     @NotNull
     private String name;
+
     @NotNull
+    @Length(min = 2,max = 60)
     private  String surnames;
 
     @JsonProperty(value = "products")

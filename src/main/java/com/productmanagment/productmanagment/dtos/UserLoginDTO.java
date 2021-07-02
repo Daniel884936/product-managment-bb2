@@ -1,19 +1,21 @@
 package com.productmanagment.productmanagment.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.productmanagment.productmanagment.models.Rol;
-import com.sun.istack.NotNull;
-
+import org.hibernate.validator.constraints.Length;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.validation.constraints.NotNull;
 
 public class UserLoginDTO {
 
-    @JsonProperty(value = "id")
     private  Long userLoginId;
+
+    @Length(min = 2,max = 60)
     @NotNull
     private String password;
+
+    @Length(min = 2,max = 60)
     @NotNull
     private String userName;
 

@@ -1,9 +1,8 @@
 package com.productmanagment.productmanagment.models;
 
-import com.sun.istack.NotNull;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -126,4 +125,12 @@ public class Product {
         this.suppliers = suppliers;
     }
 
+
+    public void addProductReductionPrice(ProductReductionPrice productReductionPrice){
+        if(productReductionPrices == null){
+            productReductionPrices = new ArrayList<>();
+        }
+        productReductionPrice.setProduct(this);
+        productReductionPrices.add(productReductionPrice);
+    }
 }

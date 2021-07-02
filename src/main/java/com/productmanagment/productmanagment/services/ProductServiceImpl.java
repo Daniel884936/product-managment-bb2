@@ -10,11 +10,10 @@ import com.productmanagment.productmanagment.repositories.CountryRepository;
 import com.productmanagment.productmanagment.repositories.ProductRepository;
 import com.productmanagment.productmanagment.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,8 +42,11 @@ public class ProductServiceImpl implements  ProductService{
     private final  String TOTAL_PRODUCT_REDUCED_PRICE_CAN_NOT_BE_LESS_THAN_ZERO = "TOTAL PRODUCT REDUCED PRICE CAN NOT BE LESS THAN ZERO";
 
     //TODO COMPLETE THIS METHOD
+
+    //TODO Refactor this class---------------------------------------------------------------------------------------------------
     @Override
     public void add(ProductDTO productDTO) {
+        productDTO.setProductId(null);
         checkProductDTOPrice(productDTO.getPrice());
         Product productFromDb = productRepository.findProductByCode(productDTO.getCode());
 
@@ -151,7 +153,8 @@ public class ProductServiceImpl implements  ProductService{
 
     @Override
     public ProductDTO getById(Long id) {
-        Product product = productRepository.getById(id);
+        Product product = productRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
+        //Product product = productRepository.getById(id);
         ProductDTO productDTO = modelMapper.map(product,ProductDTO.class);
         return productDTO;
     }
@@ -159,8 +162,12 @@ public class ProductServiceImpl implements  ProductService{
     @Override
     public List<ProductDTO> getAll() {
         List<Product> products = productRepository.findAll();
-        List<ProductDTO> productDTOS = products.stream().map(product ->
-                                        modelMapper.map(product,ProductDTO.class)).collect(Collectors.toList());
-        return productDTOS;
+        if(products != null){
+            List<ProductDTO> productDTOS = products.stream().map(product ->
+                    modelMapper.map(product,ProductDTO.class)
+            ).collect(Collectors.toList());
+            return productDTOS;
+        }
+       return new ArrayList<>();
     }
 }

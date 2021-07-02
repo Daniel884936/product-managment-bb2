@@ -2,15 +2,17 @@ package com.productmanagment.productmanagment.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sun.istack.NotNull;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 public class SupplierDTO {
 
-    @JsonProperty(value = "id")
     private  Long supplierId;
 
     @NotNull
+    @Length(min = 2,max = 60)
     private  String name;
 
     private Set<ProductDTO> products;

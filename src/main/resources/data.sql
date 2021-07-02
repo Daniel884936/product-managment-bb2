@@ -7,7 +7,19 @@ INSERT INTO COUNTRY(NAME) VALUES
 ('Republica Dominicana'),
 ('Colombia'),
 ('España'),
-('Venezuela');
+('Venezuela'),
+('Afganistán'),
+('Albania'),
+('Alemania'),
+('Belice'),
+('Bhután'),
+('Brasil'),
+('Chad'),
+('Chequia'),
+('China'),
+('Cuba'),
+('Dominica'),
+('Eslovaquia');
 
 
 CREATE TABLE SUPPLIER(
@@ -52,11 +64,11 @@ PRODUCT_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
 	FOREIGN KEY(USER_ID) REFERENCES USER(USER_ID)
 	ON DELETE CASCADE
 );
-
 INSERT INTO PRODUCT(PRICE,CODE,CREATION_DATE,DESCRIPTION,NAME,STATE,USER_ID)  VALUES
 (522,123,'2020-04-06','NA NA', 'AGUA', 1, 1),
 (522,124,'2020-04-06','NA NA', 'FRESA', 1, 1),
 (522,125,'2020-04-06','NA NA', 'REFRESCO', 1, 1);
+
 
 CREATE TABLE PRODUCT_REDUCTION_PRICE (
 PRODUCT_REDUCTION_PRICE_ID BIGINT AUTO_INCREMENT PRIMARY KEY,

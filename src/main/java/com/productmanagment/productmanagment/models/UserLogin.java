@@ -1,8 +1,8 @@
 package com.productmanagment.productmanagment.models;
 
-import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity(name = "user_login")
 public class UserLogin {
