@@ -3,9 +3,10 @@ package com.productmanagment.productmanagment.dtos;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.productmanagment.productmanagment.models.ProductState;
-import com.sun.istack.NotNull;
+
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 
 public class ProductDTO {
@@ -13,6 +14,7 @@ public class ProductDTO {
     @JsonProperty(value = "id")
     private Long productId;
 
+    @NotNull
     private Long code;
     @NotNull
     private String name;
@@ -24,10 +26,8 @@ public class ProductDTO {
     @NotNull
     private Double Price;
 
-    @JsonProperty(value = "ProductReductionPrice")
     private List<ProductReductionPriceDTO> productReductionPrices;
 
-    @JsonProperty(value = "supplier")
     private List<SupplierDTO> suppliers;
 
     @JsonProperty(value = "productState")
@@ -119,8 +119,4 @@ public class ProductDTO {
         this.state = state;
     }
 
-    public ProductDTO() {
-
-
-    }
 }

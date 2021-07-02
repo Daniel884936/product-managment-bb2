@@ -28,14 +28,14 @@ public class ProductReductionPrice {
 
     @NotNull
     @Column(name = "reduced_price")
-    private Double ReducedPrice;
+    private Double reducedPrice;
 
     public void setReducedPrice( Double reducedPrice) {
-        ReducedPrice = reducedPrice;
+        this.reducedPrice = reducedPrice;
     }
 
     public Double getReducedPrice() {
-        return ReducedPrice;
+        return reducedPrice;
     }
 
     public Long getProductReductionPriceId() {

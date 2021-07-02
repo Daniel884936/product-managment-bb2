@@ -17,6 +17,7 @@ public class UserLoginDTO {
     @NotNull
     private String userName;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private Rol rol;
 

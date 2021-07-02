@@ -17,7 +17,7 @@ public class ProductReductionPriceDTO {
     private Date endDate;
 
     @NotNull
-    private Double ReducedPrice;
+    private Double reducedPrice;
 
     @JsonIgnore
     public Long getProductReductionPriceId() {
@@ -33,7 +33,7 @@ public class ProductReductionPriceDTO {
     }
 
     public Double getReducedPrice() {
-        return ReducedPrice;
+        return reducedPrice;
     }
 
     public void setProductReductionPriceId(Long productReductionPriceId) {
@@ -49,6 +49,6 @@ public class ProductReductionPriceDTO {
     }
 
     public void setReducedPrice( Double reducedPrice) {
-        ReducedPrice = reducedPrice;
+        this.reducedPrice = reducedPrice;
     }
 }

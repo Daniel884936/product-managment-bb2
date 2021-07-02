@@ -16,8 +16,8 @@ public class SupplierDTO {
     private Set<ProductDTO> products;
 
     @NotNull
-    @JsonProperty(value = "country")
-    private CountryDTO country;
+    @JsonProperty(value = "countryId")
+    private Long countryId;
 
     public Long getSupplierId() {
         return supplierId;
@@ -31,8 +31,8 @@ public class SupplierDTO {
         return products;
     }
 
-    public CountryDTO getCountry() {
-        return country;
+    public Long getCountryId() {
+        return countryId;
     }
 
     @JsonIgnore
@@ -48,7 +48,7 @@ public class SupplierDTO {
         this.products = products;
     }
 
-    public void setCountry(CountryDTO country) {
-        this.country = country;
+    public void setCountryId(Long country) {
+        this.countryId = country;
     }
 }

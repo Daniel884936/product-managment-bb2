@@ -1,15 +1,16 @@
 package com.productmanagment.productmanagment.services;
 
 import com.productmanagment.productmanagment.dtos.ProductDTO;
+import com.productmanagment.productmanagment.dtos.SupplierDTO;
 import com.productmanagment.productmanagment.exception.BusinessException;
 import com.productmanagment.productmanagment.exception.ConflictException;
 import com.productmanagment.productmanagment.exception.NotFoundException;
-import com.productmanagment.productmanagment.models.Product;
-import com.productmanagment.productmanagment.models.ProductReductionPrice;
-import com.productmanagment.productmanagment.models.User;
+import com.productmanagment.productmanagment.models.*;
+import com.productmanagment.productmanagment.repositories.CountryRepository;
 import com.productmanagment.productmanagment.repositories.ProductRepository;
 import com.productmanagment.productmanagment.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,9 +32,11 @@ public class ProductServiceImpl implements  ProductService{
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CountryRepository countryRepository;
+
     private final  String PRODUCT_DOES_NOT_EXIST  = "PRODUCT DOES NOT EXIST";
     private final  String PRODUCT_EXIST  = "PRODUCT ALREADY EXIST";
-    //private  final  String PRODUCT_NEED_A_CREATOR = "PRODUCT NEED TO HAVE A CREATOR, PLEASE ADD USER_ID";
     private  final  String USER_DOES_NOT_EXIST = "USER DOES NOT EXIST";
     private  final String CAN_NOT_CHANGE_PRODUCT_CODE = "CAN NOT CHANGE PRODUCT CODE";
     private  final String PRODUCT_PRICE_CAN_NOT_BE_LESS_THAN_ZERO = "PRODUCT PRICE CAN NOT BE LESS THA  ZERO";
@@ -43,9 +46,6 @@ public class ProductServiceImpl implements  ProductService{
     @Override
     public void add(ProductDTO productDTO) {
         checkProductDTOPrice(productDTO.getPrice());
-
-       // Product productFromDb = productRepository.getById(productDTO.getProductId());
-
         Product productFromDb = productRepository.findProductByCode(productDTO.getCode());
 
        if(productFromDb!=null){
@@ -53,8 +53,28 @@ public class ProductServiceImpl implements  ProductService{
         }
 
         Product product = modelMapper.map(productDTO, Product.class);
-
         checkTotalProductsReducePrice(product);
+
+       //Must stay in another class with configs
+        //Set ProductReductionPrice product
+        //begin
+        List<ProductReductionPrice> productReductionPrices = product.getProductReductionPrices();
+        if(productReductionPrices !=null){
+            productReductionPrices.stream().forEach(productReductionPrice -> productReductionPrice.setProduct(product));
+        }
+
+        //set country supplier
+        List<SupplierDTO> supplierDTOS = productDTO.getSuppliers();
+        if(supplierDTOS !=null){
+            for (int i = 0; i < supplierDTOS.size(); i++) {
+                Country country = countryRepository.getById(supplierDTOS.get(i).getCountryId());
+                if (country == null) {
+                    throw new NotFoundException("Country not found");
+                }
+                product.getSuppliers().get(i).setCountry(country);
+            }
+        }
+        //end
         User creator = userRepository.getById(productDTO.getUserId());
 
         checkCreatorProduct(creator);
@@ -83,7 +103,6 @@ public class ProductServiceImpl implements  ProductService{
 
         Product product = modelMapper.map(productDTO, Product.class);
         product.setCreator(creator);
-
         checkTotalProductsReducePrice(product);
 
         //In this step product is going to update when service auto commit

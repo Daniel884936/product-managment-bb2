@@ -5,11 +5,14 @@ import com.productmanagment.productmanagment.dtos.ProductDTO;
 import com.productmanagment.productmanagment.services.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@Validated
 @RequestMapping("/api/products")
 public class ProductController {
 
@@ -29,7 +32,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity post(@RequestBody ProductDTO productDTO){
+    public ResponseEntity post(@Valid @RequestBody ProductDTO productDTO){
         productService.add(productDTO);
         return ResponseEntity.ok(new ApiResponse<>(productDTO));
     }
