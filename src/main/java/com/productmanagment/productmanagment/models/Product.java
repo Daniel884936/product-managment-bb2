@@ -53,6 +53,10 @@ public class Product {
     @Enumerated(EnumType.ORDINAL)
     private ProductState state;
 
+    //@OneToOne(mappedBy = "product")
+    @OneToOne(mappedBy = "product", cascade = {CascadeType.ALL}, orphanRemoval=true)
+    private ProductCause productCause;
+
     public void setState(ProductState state) {
         this.state = state;
     }
@@ -151,5 +155,14 @@ public class Product {
         }
         supplier.getProducts().add(this);
         suppliers.add(supplier);
+    }
+
+    public ProductCause getProductCause() {
+        return productCause;
+    }
+
+    public void setProductCause(ProductCause productCause) {
+        this.productCause = productCause;
+        this.productCause.setProduct(this);
     }
 }

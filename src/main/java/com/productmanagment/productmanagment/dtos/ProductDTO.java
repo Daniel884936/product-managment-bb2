@@ -39,6 +39,8 @@ public class ProductDTO {
     @NotNull
     private  Long userId;
 
+    private ProductCauseDTO productCause;
+
     public Long getUserId() {
         return userId;
     }
@@ -135,5 +137,14 @@ public class ProductDTO {
         }
         productReductionPriceDTO.setProductId(this.productId);
         productReductionPrices.add(productReductionPriceDTO);
+    }
+
+    public ProductCauseDTO getProductCause() {
+        return productCause;
+    }
+
+    public void setProductCause(ProductCauseDTO productCause) {
+        productCause.setProductId(this.productId);
+        this.productCause = productCause;
     }
 }

@@ -8,18 +8,13 @@ import com.productmanagment.productmanagment.dtos.SupplierDTO;
 import com.productmanagment.productmanagment.models.Product;
 import com.productmanagment.productmanagment.models.ProductReductionPrice;
 import com.productmanagment.productmanagment.models.Supplier;
-import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
 // TODO Delete circular referenceS
 public class ProductAssemblerHibernate implements  ProductAssembler{
-
-    private ModelMapper modelMapper;
-
-    public ProductAssemblerHibernate(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
 
     @Override
     public Product Dto2Pojo(ProductDTO productDTO) {
@@ -27,9 +22,19 @@ public class ProductAssemblerHibernate implements  ProductAssembler{
             return  null;
         }
 
-        //Set product reduction prices
-        Product result = modelMapper.map(productDTO, Product.class);
+        Product result = new Product();
 
+        BeanUtils.copyProperties(productDTO, result);
+        if(result.getProductId()!= null && result.getProductId() == 0){
+            result.setProductId(null);
+        }
+
+        //Ser productCause
+        if(productDTO.getProductCause()!= null){
+            result.setProductCause(HibernateDTOAssemblerFactory.DEFAULT.getProductCauseAssembler().dto2Pojo(productDTO.getProductCause()));
+        }
+
+        //Set product reduction prices
         List<ProductReductionPriceDTO> productReductionPriceDTOS  = productDTO.getProductReductionPrices();
         if(productReductionPriceDTOS!= null){
             result.setProductReductionPrices(new ArrayList<>());
@@ -62,7 +67,18 @@ public class ProductAssemblerHibernate implements  ProductAssembler{
         if(product == null){
             return null;
         }
-        ProductDTO result = modelMapper.map(product , ProductDTO.class);
+
+        ProductDTO result = new ProductDTO();
+        BeanUtils.copyProperties( product, result);
+
+        if(result.getProductId() != null && result.getProductId() == 0){
+            result.setProductId(null);
+        }
+
+        //Set productCause
+        if(product.getProductCause() != null){
+            result.setProductCause(HibernateDTOAssemblerFactory.DEFAULT.getProductCauseAssembler().pojo2Dto(product.getProductCause()));
+        }
 
         //Set product reduction prices
         List<ProductReductionPrice> productReductionPrices = product.getProductReductionPrices();

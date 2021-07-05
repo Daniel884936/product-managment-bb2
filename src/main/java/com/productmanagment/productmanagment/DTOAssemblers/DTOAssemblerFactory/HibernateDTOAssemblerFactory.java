@@ -2,19 +2,15 @@ package com.productmanagment.productmanagment.DTOAssemblers.DTOAssemblerFactory;
 
 import com.productmanagment.productmanagment.DTOAssemblers.productAssembler.ProductAssembler;
 import com.productmanagment.productmanagment.DTOAssemblers.productAssembler.ProductAssemblerHibernate;
+import com.productmanagment.productmanagment.DTOAssemblers.productCauseAssembler.ProductCauseAssembler;
+import com.productmanagment.productmanagment.DTOAssemblers.productCauseAssembler.ProductCauseAssemblerHibernate;
 import com.productmanagment.productmanagment.DTOAssemblers.productReductionPriceAssembler.ProductReductionPriceAssembler;
 import com.productmanagment.productmanagment.DTOAssemblers.productReductionPriceAssembler.ProductReductionPriceAssemblerHibernate;
 import com.productmanagment.productmanagment.DTOAssemblers.supplierAssembler.SupplierAssembler;
 import com.productmanagment.productmanagment.DTOAssemblers.supplierAssembler.SupplierDTOAssemblerHibernate;
-import org.modelmapper.ModelMapper;
 
 public class HibernateDTOAssemblerFactory extends DTOAssemblerFactory {
 
-    private final ModelMapper modelMapper;
-
-    public HibernateDTOAssemblerFactory(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
 
     private ProductAssembler productAssembler;
     @Override
@@ -22,7 +18,7 @@ public class HibernateDTOAssemblerFactory extends DTOAssemblerFactory {
         if (productAssembler== null){
             synchronized (this){
                 if(productAssembler == null){
-                    productAssembler = new ProductAssemblerHibernate(modelMapper);
+                    productAssembler = new ProductAssemblerHibernate();
                 }
             }
         }
@@ -35,7 +31,7 @@ public class HibernateDTOAssemblerFactory extends DTOAssemblerFactory {
         if(supplierAssembler== null){
             synchronized (this){
                 if(supplierAssembler == null){
-                    supplierAssembler = new SupplierDTOAssemblerHibernate(modelMapper);
+                    supplierAssembler = new SupplierDTOAssemblerHibernate();
                 }
             }
         }
@@ -48,10 +44,23 @@ public class HibernateDTOAssemblerFactory extends DTOAssemblerFactory {
         if(productReductionPriceAssembler == null){
             synchronized (this){
                 if(productReductionPriceAssembler == null){
-                    productReductionPriceAssembler = new ProductReductionPriceAssemblerHibernate(modelMapper);
+                    productReductionPriceAssembler = new ProductReductionPriceAssemblerHibernate();
                 }
             }
         }
         return productReductionPriceAssembler;
+    }
+
+    private ProductCauseAssembler productCauseAssembler;
+    @Override
+    public ProductCauseAssembler getProductCauseAssembler() {
+        if(productCauseAssembler== null){
+            synchronized (this){
+                if(productCauseAssembler == null){
+                    productCauseAssembler = new ProductCauseAssemblerHibernate();
+                }
+            }
+        }
+        return productCauseAssembler;
     }
 }

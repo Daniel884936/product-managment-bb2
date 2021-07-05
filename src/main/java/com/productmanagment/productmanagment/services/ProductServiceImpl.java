@@ -10,14 +10,13 @@ import com.productmanagment.productmanagment.exception.BusinessException;
 import com.productmanagment.productmanagment.exception.ConflictException;
 import com.productmanagment.productmanagment.exception.NotFoundException;
 import com.productmanagment.productmanagment.models.*;
-import com.productmanagment.productmanagment.repositories.CountryRepository;
-import com.productmanagment.productmanagment.repositories.ProductRepository;
-import com.productmanagment.productmanagment.repositories.SupplierRepository;
-import com.productmanagment.productmanagment.repositories.UserRepository;
+import com.productmanagment.productmanagment.repositories.*;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,12 +40,19 @@ public class ProductServiceImpl implements  ProductService{
     @Autowired
     private SupplierRepository supplierRepository;
 
+    @Autowired
+    private ProductReductionPriceRepository productReductionPriceRepository;
+
+    @Autowired
+    private ProductCauseRepository productCauseRepository;
+
     private final  String PRODUCT_DOES_NOT_EXIST  = "PRODUCT DOES NOT EXIST";
     private final  String PRODUCT_EXIST  = "PRODUCT ALREADY EXIST";
     private  final  String USER_DOES_NOT_EXIST = "USER DOES NOT EXIST";
     private  final String CAN_NOT_CHANGE_PRODUCT_CODE = "CAN NOT CHANGE PRODUCT CODE";
     private  final String PRODUCT_PRICE_CAN_NOT_BE_LESS_THAN_ZERO = "PRODUCT PRICE CAN NOT BE LESS THA  ZERO";
     private final  String TOTAL_PRODUCT_REDUCED_PRICE_CAN_NOT_BE_LESS_THAN_ZERO = "TOTAL PRODUCT REDUCED PRICE CAN NOT BE LESS THAN ZERO";
+
 
     //TODO COMPLETE THIS METHOD
 
@@ -55,6 +61,10 @@ public class ProductServiceImpl implements  ProductService{
     public void add(ProductDTO productDTO) {
         productDTO.setProductId(null);
         productDTO.setState(ProductState.ACTIVE);
+
+        if(productDTO.getProductCause() != null){
+            throw new BusinessException("Product must not have a product cause because is always Active when created");
+        }
 
         checkProductDTOPrice(productDTO.getPrice());
         Product productFromDb = productRepository.findProductByCode(productDTO.getCode());
@@ -100,7 +110,6 @@ public class ProductServiceImpl implements  ProductService{
     }
 
 
-    //TODO COMPLETE THIS METHOD
     @Override
     public void update(ProductDTO productDTO) {
 
@@ -119,7 +128,7 @@ public class ProductServiceImpl implements  ProductService{
         checkTotalProductsReducePrice(product);
 
         //In this step product is going to update when service auto commit
-        updateProduct(productFromDbTracking, product);
+        updateProduct(productFromDbTracking, productDTO);
     }
 
     private void checkProductDTOPrice(Double price){
@@ -152,16 +161,84 @@ public class ProductServiceImpl implements  ProductService{
     }
 
 
-    private void updateProduct(Product productFromDbTracking, Product productDestination){
-        productFromDbTracking.setPrice(productDestination.getPrice());
-        productFromDbTracking.setName(productDestination.getName());
-        productFromDbTracking.setState(productDestination.getState());
-        productFromDbTracking.setDescription(productDestination.getDescription());
+    private void updateProduct(Product productFromDbTracking,
+                               ProductDTO productDTODestination ){
+
+        productFromDbTracking.setPrice(productDTODestination.getPrice());
+        productFromDbTracking.setName(productDTODestination.getName());
+        processToUpdateProductState(productFromDbTracking, productDTODestination);
+        productFromDbTracking.setDescription(productDTODestination.getDescription());
 
         //TODO -----------------------------------------------
-        productFromDbTracking.setSuppliers(productDestination.getSuppliers());
-        productFromDbTracking.setProductReductionPrices(productDestination.getProductReductionPrices());
+        processToUpdateProductReductionPrice(productFromDbTracking, productDTODestination.getProductReductionPrices());
+        processToUpdateSupplier(productFromDbTracking, productDTODestination.getSuppliers());
     }
+
+
+    private void processToUpdateProductReductionPrice(Product productFromDbTracking,
+                                                      List<ProductReductionPriceDTO> productReductionPriceDTOS){
+
+        List<ProductReductionPrice> productReductionPrices = new ArrayList<>();
+
+        if(productReductionPriceDTOS != null){
+            productReductionPriceDTOS.forEach(productReductionPriceDTO -> {
+                ProductReductionPrice productReductionPrice;
+                if(productReductionPriceDTO.getProductReductionPriceId() == null){
+
+                    //CREATE NEW
+                    productReductionPrice = new ProductReductionPrice();
+                    productReductionPrice.setProduct(productFromDbTracking);
+                }
+                else{
+                    //TO UPDATE
+                    productReductionPrice = productReductionPriceRepository.findById(productReductionPriceDTO.getProductReductionPriceId())
+                            .orElseThrow(()->new NotFoundException("Product reduction price not found"));
+                }
+                BeanUtils.copyProperties(productReductionPriceDTO, productReductionPrice);
+                productReductionPrices.add(productReductionPrice);
+            });
+        }
+        //In this step we apply changes after auto commit
+        productFromDbTracking.getProductReductionPrices().clear();
+        productFromDbTracking.getProductReductionPrices().addAll(productReductionPrices);
+    }
+
+
+    //This method is to product Supplier
+    private void processToUpdateSupplier(Product productFromDbTracking,
+                                         List<SupplierDTO> supplierDTOS) {
+        List<Supplier> suppliers = new ArrayList<>();
+        if(supplierDTOS != null){
+            supplierDTOS.forEach(supplierDTO -> {
+                Supplier supplier;
+                if(supplierDTO.getSupplierId()!= null){
+                    supplier = supplierRepository.findById(supplierDTO.getSupplierId())
+                            .orElseThrow(() -> new NotFoundException("Supplier does not exist"));
+
+                    supplier.addProduct(productFromDbTracking);
+                    suppliers.add(supplier);
+                }
+            });
+        }
+        productFromDbTracking.getSuppliers().clear();
+        productFromDbTracking.setSuppliers(suppliers);
+    }
+
+
+    //This method is to update productSata
+    private void processToUpdateProductState(Product productFromDbTracking, ProductDTO productDTO){
+        if(productDTO.getState() == ProductState.DISCONTINUED){
+
+         if(productDTO.getProductCause() == null)
+             throw new BusinessException("Product must to have a cause to discontinued it  ");
+         ProductCause productCause = HibernateDTOAssemblerFactory.DEFAULT.getProductCauseAssembler().dto2Pojo(productDTO.getProductCause());
+         productCause.setProduct(productFromDbTracking);
+         productFromDbTracking.setProductCause(productCause);
+         return;
+        }
+        productFromDbTracking.setState(productDTO.getState());
+    }
+
 
     @Override
     public ProductDTO getById(Long id) {

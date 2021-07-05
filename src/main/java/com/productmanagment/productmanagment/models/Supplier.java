@@ -3,6 +3,8 @@ package com.productmanagment.productmanagment.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "supplier")
@@ -56,5 +58,14 @@ public class Supplier {
         this.name = name;
     }
 
-
+    public void addProduct(Product product){
+        if(products == null){
+            products = new HashSet<>();
+        }
+        if(product.getSuppliers() == null){
+            product.setSuppliers(new ArrayList<>());
+        }
+        product.getSuppliers().add(this);
+        products.add(product);
+    }
 }
