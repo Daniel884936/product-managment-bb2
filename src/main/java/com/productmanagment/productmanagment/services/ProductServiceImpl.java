@@ -166,11 +166,13 @@ public class ProductServiceImpl implements  ProductService{
 
         productFromDbTracking.setPrice(productDTODestination.getPrice());
         productFromDbTracking.setName(productDTODestination.getName());
+
         processToUpdateProductState(productFromDbTracking, productDTODestination);
+
         productFromDbTracking.setDescription(productDTODestination.getDescription());
 
-        //TODO -----------------------------------------------
         processToUpdateProductReductionPrice(productFromDbTracking, productDTODestination.getProductReductionPrices());
+
         processToUpdateSupplier(productFromDbTracking, productDTODestination.getSuppliers());
     }
 
@@ -237,6 +239,7 @@ public class ProductServiceImpl implements  ProductService{
          return;
         }
         productFromDbTracking.setState(productDTO.getState());
+        //TODO in this step we have to remove products cause
     }
 
 

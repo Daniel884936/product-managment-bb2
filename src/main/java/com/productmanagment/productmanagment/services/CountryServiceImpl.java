@@ -1,5 +1,6 @@
 package com.productmanagment.productmanagment.services;
 
+import com.productmanagment.productmanagment.DTOAssemblers.DTOAssemblerFactory.HibernateDTOAssemblerFactory;
 import com.productmanagment.productmanagment.dtos.CountryDTO;
 import com.productmanagment.productmanagment.models.Country;
 import com.productmanagment.productmanagment.repositories.CountryRepository;
@@ -22,7 +23,7 @@ public class CountryServiceImpl implements CountryService{
     @Override
     public List<CountryDTO> getAll() {
         List<Country> countries = countryRepository.findAll();
-        List<CountryDTO> countryDTOS = countries.stream().map(country -> modelMapper.map(country, CountryDTO.class)).collect(Collectors.toList());
-        return countryDTOS;
+        return countries.stream().map(country ->
+                HibernateDTOAssemblerFactory.DEFAULT.getCountryAssembler().pojo2Dto(country)).collect(Collectors.toList());
     }
 }

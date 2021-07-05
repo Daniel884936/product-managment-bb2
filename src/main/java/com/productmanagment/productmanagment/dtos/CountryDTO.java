@@ -16,6 +16,7 @@ public class CountryDTO {
     @Length(max = 60)
     private String name;
 
+    @JsonIgnore
     private List<SupplierDTO> suppliers;
 
     public List<SupplierDTO> getSuppliers() {
@@ -34,7 +35,6 @@ public class CountryDTO {
         return name;
     }
 
-    @JsonIgnore
     public void setCountryId(Long countryId) {
         this.countryId = countryId;
     }

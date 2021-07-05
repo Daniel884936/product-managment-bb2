@@ -1,5 +1,6 @@
 package com.productmanagment.productmanagment.DTOAssemblers.DTOAssemblerFactory;
 
+import com.productmanagment.productmanagment.DTOAssemblers.countryAssembler.CountryAssembler;
 import com.productmanagment.productmanagment.DTOAssemblers.productAssembler.ProductAssembler;
 import com.productmanagment.productmanagment.DTOAssemblers.productCauseAssembler.ProductCauseAssembler;
 import com.productmanagment.productmanagment.DTOAssemblers.productReductionPriceAssembler.ProductReductionPriceAssembler;
@@ -16,5 +17,6 @@ public abstract class DTOAssemblerFactory {
     public  abstract SupplierAssembler getSupplierAssembler();
     public  abstract ProductReductionPriceAssembler getProductReductionPriceAssembler();
     public  abstract ProductCauseAssembler getProductCauseAssembler();
+    public  abstract CountryAssembler getCountryAssembler();
 
 }

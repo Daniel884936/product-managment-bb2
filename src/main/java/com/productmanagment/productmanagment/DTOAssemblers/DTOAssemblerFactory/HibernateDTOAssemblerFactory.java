@@ -1,5 +1,7 @@
 package com.productmanagment.productmanagment.DTOAssemblers.DTOAssemblerFactory;
 
+import com.productmanagment.productmanagment.DTOAssemblers.countryAssembler.CountryAssembler;
+import com.productmanagment.productmanagment.DTOAssemblers.countryAssembler.CountryAssemblerHibernate;
 import com.productmanagment.productmanagment.DTOAssemblers.productAssembler.ProductAssembler;
 import com.productmanagment.productmanagment.DTOAssemblers.productAssembler.ProductAssemblerHibernate;
 import com.productmanagment.productmanagment.DTOAssemblers.productCauseAssembler.ProductCauseAssembler;
@@ -62,5 +64,18 @@ public class HibernateDTOAssemblerFactory extends DTOAssemblerFactory {
             }
         }
         return productCauseAssembler;
+    }
+
+    private CountryAssembler countryAssembler;
+    @Override
+    public CountryAssembler getCountryAssembler() {
+        if(countryAssembler == null){
+            synchronized (this){
+                if(countryAssembler == null){
+                    countryAssembler = new CountryAssemblerHibernate();
+                }
+            }
+        }
+        return countryAssembler;
     }
 }
