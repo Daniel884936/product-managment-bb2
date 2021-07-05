@@ -1,19 +1,23 @@
 package com.productmanagment.productmanagment.services;
 
+import com.productmanagment.productmanagment.DTOAssemblers.DTOAssemblerFactory.HibernateDTOAssemblerFactory;
+import com.productmanagment.productmanagment.configs.ProductConf;
 import com.productmanagment.productmanagment.dtos.ProductDTO;
+import com.productmanagment.productmanagment.dtos.ProductReductionPriceDTO;
 import com.productmanagment.productmanagment.dtos.SupplierDTO;
+import com.productmanagment.productmanagment.exception.BadRequestException;
 import com.productmanagment.productmanagment.exception.BusinessException;
 import com.productmanagment.productmanagment.exception.ConflictException;
 import com.productmanagment.productmanagment.exception.NotFoundException;
 import com.productmanagment.productmanagment.models.*;
 import com.productmanagment.productmanagment.repositories.CountryRepository;
 import com.productmanagment.productmanagment.repositories.ProductRepository;
+import com.productmanagment.productmanagment.repositories.SupplierRepository;
 import com.productmanagment.productmanagment.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +38,9 @@ public class ProductServiceImpl implements  ProductService{
     @Autowired
     private CountryRepository countryRepository;
 
+    @Autowired
+    private SupplierRepository supplierRepository;
+
     private final  String PRODUCT_DOES_NOT_EXIST  = "PRODUCT DOES NOT EXIST";
     private final  String PRODUCT_EXIST  = "PRODUCT ALREADY EXIST";
     private  final  String USER_DOES_NOT_EXIST = "USER DOES NOT EXIST";
@@ -47,44 +54,51 @@ public class ProductServiceImpl implements  ProductService{
     @Override
     public void add(ProductDTO productDTO) {
         productDTO.setProductId(null);
+        productDTO.setState(ProductState.ACTIVE);
+
         checkProductDTOPrice(productDTO.getPrice());
         Product productFromDb = productRepository.findProductByCode(productDTO.getCode());
 
        if(productFromDb!=null){
             throw new ConflictException(PRODUCT_EXIST);
         }
-
-        Product product = modelMapper.map(productDTO, Product.class);
+        Product product = HibernateDTOAssemblerFactory.DEFAULT.getProductAssembler().Dto2Pojo(productDTO);
         checkTotalProductsReducePrice(product);
 
-       //Must stay in another class with configs
-        //Set ProductReductionPrice product
-        //begin
-        List<ProductReductionPrice> productReductionPrices = product.getProductReductionPrices();
-        if(productReductionPrices !=null){
-            productReductionPrices.stream().forEach(productReductionPrice -> productReductionPrice.setProduct(product));
-        }
+        //set supplier and country to supplier
 
-        //set country supplier
         List<SupplierDTO> supplierDTOS = productDTO.getSuppliers();
+
         if(supplierDTOS !=null){
             for (int i = 0; i < supplierDTOS.size(); i++) {
-                Country country = countryRepository.getById(supplierDTOS.get(i).getCountryId());
-                if (country == null) {
-                    throw new NotFoundException("Country not found");
-                }
-                product.getSuppliers().get(i).setCountry(country);
+
+                if(supplierDTOS.get(i).getSupplierId() == null)
+                    throw  new BadRequestException("product must to have a supplierId");
+
+                    //track supplier if have id to reference current supplierFromDb
+                    Supplier supplierReference = product.getSuppliers().get(i);
+                    Supplier supplierFromDb = supplierRepository.findById(supplierDTOS.get(i).getSupplierId())
+                            .orElseThrow(() -> new NotFoundException("Supplier not found"));
+                    product.getSuppliers().remove(supplierReference);
+                    product.getSuppliers().add(supplierFromDb);
+
+                if(supplierDTOS.get(i).getCountryId() == null)
+                    throw  new BadRequestException("supplier must have a countryId");
+
+                    Country country = countryRepository.findById(supplierDTOS.get(i).getCountryId())
+                            .orElseThrow(() ->
+                                    new NotFoundException("Country not found"));
+                    product.getSuppliers().get(i).setCountry(country);
             }
         }
-        //end
         User creator = userRepository.getById(productDTO.getUserId());
-
         checkCreatorProduct(creator);
-
         product.setCreationDate(new Date());
         product.setCreator(creator);
         productRepository.save(product);
+        productDTO.setProductId(product.getProductId());
     }
+
 
     //TODO COMPLETE THIS METHOD
     @Override
@@ -92,18 +106,15 @@ public class ProductServiceImpl implements  ProductService{
 
         checkProductDTOPrice(productDTO.getPrice());
 
-        //Product productFromDbTracking = productRepository.findProductByCodeOrId(productDTO.getCode(), productDTO.getProductId());
-        Product productFromDbTracking = productRepository.findProductByCode(productDTO.getCode());
+        Product productFromDbTracking = productRepository.findProductByCodeOrId(productDTO.getCode(), productDTO.getProductId());
 
-        if(productFromDbTracking==null){
+        if(productFromDbTracking == null){
             throw new NotFoundException(PRODUCT_DOES_NOT_EXIST);
         }
 
+        Product product = HibernateDTOAssemblerFactory.DEFAULT.getProductAssembler().Dto2Pojo(productDTO);
         User creator = userRepository.getById(productDTO.getUserId());
-
         checkCreatorProduct(creator);
-
-        Product product = modelMapper.map(productDTO, Product.class);
         product.setCreator(creator);
         checkTotalProductsReducePrice(product);
 
@@ -134,8 +145,8 @@ public class ProductServiceImpl implements  ProductService{
                     totalReducedPrice +=  productReductionPrice.getReducedPrice();
                 }
             }
-            if(totalReducedPrice < 0.0){
-                throw new BusinessException(TOTAL_PRODUCT_REDUCED_PRICE_CAN_NOT_BE_LESS_THAN_ZERO);
+            if(totalReducedPrice > product.getPrice()){
+                throw new BusinessException("Total product reduce price must no be greater than product price");
             }
         }
     }
@@ -146,28 +157,28 @@ public class ProductServiceImpl implements  ProductService{
         productFromDbTracking.setName(productDestination.getName());
         productFromDbTracking.setState(productDestination.getState());
         productFromDbTracking.setDescription(productDestination.getDescription());
+
+        //TODO -----------------------------------------------
         productFromDbTracking.setSuppliers(productDestination.getSuppliers());
         productFromDbTracking.setProductReductionPrices(productDestination.getProductReductionPrices());
     }
 
-
     @Override
     public ProductDTO getById(Long id) {
         Product product = productRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
-        //Product product = productRepository.getById(id);
-        ProductDTO productDTO = modelMapper.map(product,ProductDTO.class);
-        return productDTO;
+        return HibernateDTOAssemblerFactory.DEFAULT.getProductAssembler().pojo2Dto(product,
+                new ProductConf(true));
     }
 
     @Override
     public List<ProductDTO> getAll() {
         List<Product> products = productRepository.findAll();
-        if(products != null){
-            List<ProductDTO> productDTOS = products.stream().map(product ->
-                    modelMapper.map(product,ProductDTO.class)
-            ).collect(Collectors.toList());
-            return productDTOS;
-        }
-       return new ArrayList<>();
+
+        //convert all product to productDto
+
+        return products.stream().map(product ->
+             HibernateDTOAssemblerFactory.DEFAULT.getProductAssembler().pojo2Dto(product,
+                     new ProductConf(true))
+        ).collect(Collectors.toList());
     }
 }

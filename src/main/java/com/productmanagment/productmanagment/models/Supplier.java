@@ -16,12 +16,7 @@ public class Supplier {
     @NotNull
     private  String name;
 
-    @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "supplier_product",
-            joinColumns = { @JoinColumn(name = "supplier_id") },
-            inverseJoinColumns = { @JoinColumn(name = "product_id") }
-    )
+    @ManyToMany(mappedBy = "suppliers",fetch = FetchType.EAGER)
     private Set<Product> products;
 
     @NotNull
@@ -60,5 +55,6 @@ public class Supplier {
     public void setName(String name) {
         this.name = name;
     }
+
 
 }

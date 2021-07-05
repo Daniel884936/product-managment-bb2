@@ -1,6 +1,4 @@
 package com.productmanagment.productmanagment.dtos;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -15,12 +13,15 @@ public class ProductReductionPriceDTO {
     private Date startDate;
 
     @NotNull
+    private Long productId;
+
+    @NotNull
     private Date endDate;
 
     @NotNull
     private Double reducedPrice;
 
-    @JsonIgnore
+
     public Long getProductReductionPriceId() {
         return productReductionPriceId;
     }
@@ -51,5 +52,13 @@ public class ProductReductionPriceDTO {
 
     public void setReducedPrice( Double reducedPrice) {
         this.reducedPrice = reducedPrice;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 }

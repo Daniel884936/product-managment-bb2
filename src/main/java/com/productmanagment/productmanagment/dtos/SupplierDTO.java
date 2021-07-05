@@ -3,8 +3,8 @@ package com.productmanagment.productmanagment.dtos;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Length;
-
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.Set;
 
 public class SupplierDTO {
@@ -15,6 +15,7 @@ public class SupplierDTO {
     @Length(min = 2,max = 60)
     private  String name;
 
+    @JsonIgnore
     private Set<ProductDTO> products;
 
     @NotNull
@@ -37,7 +38,6 @@ public class SupplierDTO {
         return countryId;
     }
 
-    @JsonIgnore
     public void setSupplierId(Long supplierId) {
         this.supplierId = supplierId;
     }
@@ -52,5 +52,13 @@ public class SupplierDTO {
 
     public void setCountryId(Long country) {
         this.countryId = country;
+    }
+
+    public  void addProduct(ProductDTO productDTO){
+        if(products == null){
+            products = new HashSet<ProductDTO>();
+        }
+        productDTO.addSupplier(this);
+        products.add(productDTO);
     }
 }

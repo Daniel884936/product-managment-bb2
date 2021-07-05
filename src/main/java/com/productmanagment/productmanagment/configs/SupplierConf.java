@@ -13,4 +13,8 @@ public class SupplierConf {
          productConfCollectionConf = new CollectionConf<>();
         }
     }
+
+    public CollectionConf<ProductConf> getProductConfCollectionConf() {
+        return productConfCollectionConf;
+    }
 }

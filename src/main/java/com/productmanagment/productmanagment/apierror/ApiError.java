@@ -11,7 +11,7 @@ public class ApiError {
     private HttpStatus httpStatus;
     private String debugMessage;
     private String message;
-    private LocalDateTime timestamp;
+    private final LocalDateTime timestamp;
     //private List<String> details;
 
     private ApiError() {
@@ -20,7 +20,7 @@ public class ApiError {
 
     public ApiError(HttpStatus httpStatus){
         this();
-        httpStatus = httpStatus;
+        this.httpStatus = httpStatus;
     }
 
     public  ApiError(HttpStatus httpStatus, Throwable ex){

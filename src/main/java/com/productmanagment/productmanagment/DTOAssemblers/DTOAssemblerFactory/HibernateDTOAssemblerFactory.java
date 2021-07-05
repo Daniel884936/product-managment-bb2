@@ -6,9 +6,15 @@ import com.productmanagment.productmanagment.DTOAssemblers.productReductionPrice
 import com.productmanagment.productmanagment.DTOAssemblers.productReductionPriceAssembler.ProductReductionPriceAssemblerHibernate;
 import com.productmanagment.productmanagment.DTOAssemblers.supplierAssembler.SupplierAssembler;
 import com.productmanagment.productmanagment.DTOAssemblers.supplierAssembler.SupplierDTOAssemblerHibernate;
+import org.modelmapper.ModelMapper;
 
 public class HibernateDTOAssemblerFactory extends DTOAssemblerFactory {
 
+    private final ModelMapper modelMapper;
+
+    public HibernateDTOAssemblerFactory(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
 
     private ProductAssembler productAssembler;
     @Override
@@ -16,7 +22,7 @@ public class HibernateDTOAssemblerFactory extends DTOAssemblerFactory {
         if (productAssembler== null){
             synchronized (this){
                 if(productAssembler == null){
-                    productAssembler = new ProductAssemblerHibernate();
+                    productAssembler = new ProductAssemblerHibernate(modelMapper);
                 }
             }
         }
@@ -29,7 +35,7 @@ public class HibernateDTOAssemblerFactory extends DTOAssemblerFactory {
         if(supplierAssembler== null){
             synchronized (this){
                 if(supplierAssembler == null){
-                    supplierAssembler = new SupplierDTOAssemblerHibernate();
+                    supplierAssembler = new SupplierDTOAssemblerHibernate(modelMapper);
                 }
             }
         }
@@ -42,7 +48,7 @@ public class HibernateDTOAssemblerFactory extends DTOAssemblerFactory {
         if(productReductionPriceAssembler == null){
             synchronized (this){
                 if(productReductionPriceAssembler == null){
-                    productReductionPriceAssembler = new ProductReductionPriceAssemblerHibernate();
+                    productReductionPriceAssembler = new ProductReductionPriceAssemblerHibernate(modelMapper);
                 }
             }
         }

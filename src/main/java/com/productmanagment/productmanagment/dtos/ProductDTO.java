@@ -1,11 +1,8 @@
 package com.productmanagment.productmanagment.dtos;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.productmanagment.productmanagment.models.ProductState;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
-
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.*;
@@ -124,4 +121,19 @@ public class ProductDTO {
         this.state = state;
     }
 
+    public  void addSupplier(SupplierDTO supplierDTO){
+        if(suppliers == null){
+            suppliers = new ArrayList<SupplierDTO>();
+        }
+        //supplierDTO.addProduct(this);
+        suppliers.add(supplierDTO);
+    }
+
+     public void addProductReductionPrice(ProductReductionPriceDTO productReductionPriceDTO){
+        if(productReductionPrices == null){
+            productReductionPrices = new ArrayList<ProductReductionPriceDTO>();
+        }
+        productReductionPriceDTO.setProductId(this.productId);
+        productReductionPrices.add(productReductionPriceDTO);
+    }
 }

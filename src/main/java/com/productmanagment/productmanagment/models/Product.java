@@ -2,9 +2,11 @@ package com.productmanagment.productmanagment.models;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -28,6 +30,7 @@ public class Product {
     private Date creationDate;
 
     @NotNull
+    @Min(0)
     private Double Price;
 
     @NotNull
@@ -38,7 +41,12 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
     private List<ProductReductionPrice> productReductionPrices;
 
-    @ManyToMany(mappedBy = "products",fetch = FetchType.EAGER)
+    @ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE }, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "supplier_product",
+            joinColumns = { @JoinColumn(name = "product_id") },
+            inverseJoinColumns = { @JoinColumn(name = "supplier_id") }
+    )
     private List<Supplier> suppliers;
 
     @NotNull
@@ -132,5 +140,16 @@ public class Product {
         }
         productReductionPrice.setProduct(this);
         productReductionPrices.add(productReductionPrice);
+    }
+
+    public void addSupplier(Supplier supplier){
+        if(suppliers == null){
+            suppliers = new ArrayList<>();
+        }
+        if(supplier.getProducts() == null){
+            supplier.setProducts(new HashSet<>());
+        }
+        supplier.getProducts().add(this);
+        suppliers.add(supplier);
     }
 }

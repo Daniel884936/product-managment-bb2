@@ -6,4 +6,5 @@ import com.productmanagment.productmanagment.dtos.ProductDTO;
 import com.productmanagment.productmanagment.models.Product;
 
 public interface ProductAssembler extends GenericDTOAssembler<Product, ProductDTO, ProductConf> {
+
 }
