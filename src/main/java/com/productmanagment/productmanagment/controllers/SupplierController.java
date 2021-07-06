@@ -2,7 +2,7 @@ package com.productmanagment.productmanagment.controllers;
 
 import com.productmanagment.productmanagment.apiresponses.ApiResponse;
 import com.productmanagment.productmanagment.dtos.SupplierDTO;
-import com.productmanagment.productmanagment.services.SupplierServiceImpl;
+import com.productmanagment.productmanagment.services.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,7 +17,7 @@ import java.util.List;
 public class SupplierController {
 
     @Autowired
-    private SupplierServiceImpl supplierService;
+    private SupplierService supplierService;
 
     @GetMapping
     public ResponseEntity getAll(){

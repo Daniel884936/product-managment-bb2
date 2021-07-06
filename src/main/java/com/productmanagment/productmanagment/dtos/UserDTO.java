@@ -1,28 +1,33 @@
 package com.productmanagment.productmanagment.dtos;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.productmanagment.productmanagment.models.Rol;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
-import java.util.Set;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO {
 
     private  Long userId;
 
-    @Length(min = 2,max = 60)
+    @Length(min = 2,max = 40)
     @NotNull
     private String name;
 
     @NotNull
-    @Length(min = 2,max = 60)
+    @Length(min = 2,max = 40)
     private  String surnames;
 
-    @JsonProperty(value = "products")
-    private Set<ProductDTO> products;
+    @NotNull
+    @Length(min = 2,max = 30)
+    private String username;
 
-    @JsonProperty(value = "userLogin")
-    private Set<UserLoginDTO> userLogins;
+    @NotNull
+    @Length(min = 2,max = 30)
+    private String password;
+
+    @NotNull
+    private Rol userRole;
 
     public Long getUserId() {
         return userId;
@@ -36,15 +41,6 @@ public class UserDTO {
         return surnames;
     }
 
-    public Set<ProductDTO> getProducts() {
-        return products;
-    }
-
-    public Set<UserLoginDTO> getUserLogins() {
-        return userLogins;
-    }
-
-    @JsonIgnore
     public void setUserId(Long userId) {
         this.userId = userId;
     }
@@ -57,11 +53,28 @@ public class UserDTO {
         this.surnames = surnames;
     }
 
-    public void setProducts(Set<ProductDTO> products) {
-        this.products = products;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserLogins(Set<UserLoginDTO> userLogins) {
-        this.userLogins = userLogins;
+    public String getPassword() {
+        return password;
     }
+
+    public Rol getUserRole() {
+        return userRole;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUserRole(Rol userRole) {
+        this.userRole = userRole;
+    }
+
 }

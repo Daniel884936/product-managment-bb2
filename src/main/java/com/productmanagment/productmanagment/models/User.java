@@ -1,7 +1,10 @@
 package com.productmanagment.productmanagment.models;
 
+import com.productmanagment.productmanagment.dtos.ProductDTO;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "user")
@@ -22,15 +25,17 @@ public class User {
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
     private Set<Product> products;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
-    private Set<UserLogin> userLogins;
+    /*@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)*/
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    private UserLogin userLogin;
 
-    public Set<UserLogin> getUserLogins() {
-        return userLogins;
+    public void setUserLogin(UserLogin userLogin) {
+        userLogin.setUser(this);
+        this.userLogin = userLogin;
     }
 
-    public void setUserLogins(Set<UserLogin> userLogins) {
-        this.userLogins = userLogins;
+    public UserLogin getUserLogin() {
+        return userLogin;
     }
 
     public Long getUserId() {
@@ -63,5 +68,13 @@ public class User {
 
     public void setProducts(Set<Product> products) {
         this.products = products;
+    }
+
+    public void addProduct(Product product){
+        if(products == null){
+            products= new HashSet<>();
+        }
+        product.setCreator(this);
+        products.add(product);
     }
 }

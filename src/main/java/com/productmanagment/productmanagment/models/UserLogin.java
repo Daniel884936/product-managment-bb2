@@ -20,8 +20,10 @@ public class UserLogin {
     @Column(unique = true)
     private String username;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    /*@ManyToOne(fetch = FetchType.LAZY)
     @NotNull
+    @JoinColumn(name = "user_id")*/
+    @OneToOne
     @JoinColumn(name = "user_id")
     private  User user;
 

@@ -1,4 +1,5 @@
 package com.productmanagment.productmanagment.dtos;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.productmanagment.productmanagment.models.ProductState;
 import lombok.Data;
@@ -8,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.util.*;
 
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductDTO {
 
     private Long productId;
@@ -19,6 +21,7 @@ public class ProductDTO {
     @Length(min = 2, max = 30)
     private String name;
 
+    @NotNull
     @Length( max = 60)
     private String description;
 

@@ -10,6 +10,11 @@ import com.productmanagment.productmanagment.DTOAssemblers.productReductionPrice
 import com.productmanagment.productmanagment.DTOAssemblers.productReductionPriceAssembler.ProductReductionPriceAssemblerHibernate;
 import com.productmanagment.productmanagment.DTOAssemblers.supplierAssembler.SupplierAssembler;
 import com.productmanagment.productmanagment.DTOAssemblers.supplierAssembler.SupplierDTOAssemblerHibernate;
+import com.productmanagment.productmanagment.DTOAssemblers.userAssemblerFactory.UserAssembler;
+import com.productmanagment.productmanagment.DTOAssemblers.userAssemblerFactory.UserAssemblerHibernate;
+import com.productmanagment.productmanagment.DTOAssemblers.userLoginAssembler.UserLoginAssembler;
+import com.productmanagment.productmanagment.DTOAssemblers.userLoginAssembler.UserLoginAssemblerHibernate;
+
 
 public class HibernateDTOAssemblerFactory extends DTOAssemblerFactory {
 
@@ -78,4 +83,32 @@ public class HibernateDTOAssemblerFactory extends DTOAssemblerFactory {
         }
         return countryAssembler;
     }
+
+    private  UserAssembler userAssembler;
+    @Override
+    public UserAssembler getUserAssembler() {
+        if(userAssembler == null){
+            synchronized (this){
+                if(userAssembler == null){
+                    userAssembler = new UserAssemblerHibernate();
+                }
+            }
+        }
+        return userAssembler;
+    }
+
+    private UserLoginAssembler userLoginAssembler;
+    @Override
+    public UserLoginAssembler getUserLoginAssembler() {
+        if(userLoginAssembler == null){
+            synchronized (this){
+                if (userLoginAssembler == null){
+                    userLoginAssembler = new UserLoginAssemblerHibernate();
+                }
+            }
+        }
+        return userLoginAssembler;
+    }
 }
+
+

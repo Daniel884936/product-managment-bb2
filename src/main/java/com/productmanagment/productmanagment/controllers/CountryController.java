@@ -2,7 +2,7 @@ package com.productmanagment.productmanagment.controllers;
 
 import com.productmanagment.productmanagment.apiresponses.ApiResponse;
 import com.productmanagment.productmanagment.dtos.CountryDTO;
-import com.productmanagment.productmanagment.services.CountryServiceImpl;
+import com.productmanagment.productmanagment.services.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +16,7 @@ import java.util.List;
 public class CountryController {
 
     @Autowired
-    private CountryServiceImpl countryService;
+    private CountryService countryService;
 
     @GetMapping
     public ResponseEntity getAll(){

@@ -1,14 +1,17 @@
 package com.productmanagment.productmanagment.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.productmanagment.productmanagment.models.Rol;
 import org.hibernate.validator.constraints.Length;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserLoginDTO {
 
+    @JsonIgnore
     private  Long userLoginId;
 
     @Length(min = 2,max = 60)
@@ -17,26 +20,28 @@ public class UserLoginDTO {
 
     @Length(min = 2,max = 60)
     @NotNull
-    private String userName;
+    private String username;
 
-    @NotNull
+
+    @JsonIgnore
     @Enumerated(EnumType.STRING)
     private Rol rol;
+
+    @JsonIgnore
+    private UserDTO user;
 
     public Long getUserLoginId() {
         return userLoginId;
     }
 
-    @JsonIgnore
     public String getPassword() {
         return password;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    @JsonIgnore
     public void setUserLoginId(Long userLoginId) {
         this.userLoginId = userLoginId;
     }
@@ -45,7 +50,23 @@ public class UserLoginDTO {
         this.password = password;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
+    }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public UserDTO getUser() {
+        return user;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+
+    public void setUser(UserDTO user) {
+        this.user = user;
     }
 }

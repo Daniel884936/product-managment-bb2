@@ -10,6 +10,7 @@ import com.productmanagment.productmanagment.exception.BusinessException;
 import com.productmanagment.productmanagment.exception.ConflictException;
 import com.productmanagment.productmanagment.exception.NotFoundException;
 import com.productmanagment.productmanagment.models.*;
+import com.productmanagment.productmanagment.queryFilters.ProductQueryFilter;
 import com.productmanagment.productmanagment.repositories.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
@@ -129,6 +130,7 @@ public class ProductServiceImpl implements  ProductService{
 
         //In this step product is going to update when service auto commit
         updateProduct(productFromDbTracking, productDTO);
+
     }
 
     private void checkProductDTOPrice(Double price){
@@ -251,11 +253,13 @@ public class ProductServiceImpl implements  ProductService{
     }
 
     @Override
-    public List<ProductDTO> getAll() {
-        List<Product> products = productRepository.findAll();
-
-        //convert all product to productDto
-
+    public List<ProductDTO> getAll(ProductQueryFilter productQueryFilter) {
+        List<Product> products;
+        if(productQueryFilter.getProductState() != null){
+            products = productRepository.findAllProductByState(productQueryFilter.getProductState().ordinal());
+        }
+        else
+            products = productRepository.findAll();
         return products.stream().map(product ->
              HibernateDTOAssemblerFactory.DEFAULT.getProductAssembler().pojo2Dto(product,
                      new ProductConf(true))

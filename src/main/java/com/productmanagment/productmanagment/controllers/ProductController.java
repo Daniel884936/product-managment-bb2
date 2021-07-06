@@ -2,6 +2,7 @@ package com.productmanagment.productmanagment.controllers;
 
 import com.productmanagment.productmanagment.apiresponses.ApiResponse;
 import com.productmanagment.productmanagment.dtos.ProductDTO;
+import com.productmanagment.productmanagment.queryFilters.ProductQueryFilter;
 import com.productmanagment.productmanagment.services.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +21,8 @@ public class ProductController {
     private ProductServiceImpl productService;
 
     @GetMapping
-    public ResponseEntity getAll(){
-        List<ProductDTO> productDTOS = productService.getAll();
+    public ResponseEntity getAll(ProductQueryFilter productQueryFilter){
+        List<ProductDTO> productDTOS = productService.getAll(productQueryFilter);
         return ResponseEntity.ok(new ApiResponse<>(productDTOS));
     }
 

@@ -2,7 +2,7 @@ package com.productmanagment.productmanagment.controllers;
 
 import com.productmanagment.productmanagment.apiresponses.ApiResponse;
 import com.productmanagment.productmanagment.models.ProductState;
-import com.productmanagment.productmanagment.services.ProductStateServiceImpl;
+import com.productmanagment.productmanagment.services.ProductStateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,7 @@ import java.util.List;
 public class ProductStateController {
 
     @Autowired
-    ProductStateServiceImpl productStateService;
+    ProductStateService productStateService;
 
     @GetMapping
     public ResponseEntity getAll(){
