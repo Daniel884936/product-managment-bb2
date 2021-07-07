@@ -2,10 +2,11 @@ package com.productmanagment.productmanagment.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity(name = "product_reduction_price")
-public class ProductReductionPrice {
+public class ProductReductionPrice implements Serializable {
 
     @Id
     //@GeneratedValue

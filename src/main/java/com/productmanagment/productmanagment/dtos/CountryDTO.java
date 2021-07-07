@@ -43,4 +43,12 @@ public class CountryDTO {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "CountryDTO{" +
+                "countryId=" + countryId +
+                ", name='" + name + '\'' +
+                ", suppliers=" + suppliers +
+                '}';
+    }
 }

@@ -2,10 +2,11 @@ package com.productmanagment.productmanagment.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity(name = "country")
-public class Country {
+public class Country implements Serializable {
 
     @Id
     //@GeneratedValue

@@ -150,4 +150,21 @@ public class ProductDTO {
         productCause.setProductId(this.productId);
         this.productCause = productCause;
     }
+
+    @Override
+    public String toString() {
+        return "ProductDTO{" +
+                "productId=" + productId +
+                ", code=" + code +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", creationDate=" + creationDate +
+                ", Price=" + Price +
+                ", productReductionPrices=" + productReductionPrices +
+                ", suppliers=" + suppliers +
+                ", state=" + state +
+                ", userId=" + userId +
+                ", productCause=" + productCause +
+                '}';
+    }
 }

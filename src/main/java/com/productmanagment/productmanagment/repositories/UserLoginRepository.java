@@ -10,4 +10,9 @@ public interface UserLoginRepository extends JpaRepository<UserLogin, Long> {
     @Query(value = "select * from user_login ul where ul.username = ?1 and ul.password = ?2",
             nativeQuery = true)
     public UserLogin getLoginByCredentials(String username, String password);
+
+
+    @Query(value = "select * from user_login ul where ul.username = ?1",
+    nativeQuery = true)
+    public UserLogin getByUserName(String username);
 }

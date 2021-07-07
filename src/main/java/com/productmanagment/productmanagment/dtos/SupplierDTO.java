@@ -61,4 +61,14 @@ public class SupplierDTO {
         productDTO.addSupplier(this);
         products.add(productDTO);
     }
+
+    @Override
+    public String toString() {
+        return "SupplierDTO{" +
+                "supplierId=" + supplierId +
+                ", name='" + name + '\'' +
+                ", products=" + products +
+                ", countryId=" + countryId +
+                '}';
+    }
 }

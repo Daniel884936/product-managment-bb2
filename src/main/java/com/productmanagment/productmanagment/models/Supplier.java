@@ -3,12 +3,13 @@ package com.productmanagment.productmanagment.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "supplier")
-public class Supplier {
+public class Supplier implements Serializable {
 
     @Id
     //@GeneratedValue

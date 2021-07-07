@@ -3,9 +3,10 @@ package com.productmanagment.productmanagment.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity(name = "user_login")
-public class UserLogin {
+public class UserLogin implements Serializable {
 
     @Id
     //@GeneratedValue

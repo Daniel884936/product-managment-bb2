@@ -2,6 +2,7 @@ package com.productmanagment.productmanagment.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * ProductCause pojo.
@@ -10,7 +11,7 @@ import javax.validation.constraints.NotNull;
  * @author Erick Tejada
  */
 @Entity(name = "product_cause")
-public class ProductCause {
+public class ProductCause implements Serializable {
 
     @Id
     @Column(name = "product_cause_id")

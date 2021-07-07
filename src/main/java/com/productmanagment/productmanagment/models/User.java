@@ -4,11 +4,12 @@ import com.productmanagment.productmanagment.dtos.ProductDTO;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "user")
-public class User {
+public class User implements Serializable {
 
     @Id
     //@GeneratedValue

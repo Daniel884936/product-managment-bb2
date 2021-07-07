@@ -4,6 +4,7 @@ package com.productmanagment.productmanagment.models;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -11,7 +12,7 @@ import java.util.List;
 
 
 @Entity(name = "product")
-public class Product {
+public class Product implements Serializable {
 
     @Id
     //@GeneratedValue

@@ -35,4 +35,13 @@ public class ProductCauseDTO {
     public void setProductId(Long productId) {
         this.productId = productId;
     }
+
+    @Override
+    public String toString() {
+        return "ProductCauseDTO{" +
+                "productCauseId=" + productCauseId +
+                ", description='" + description + '\'' +
+                ", productId=" + productId +
+                '}';
+    }
 }

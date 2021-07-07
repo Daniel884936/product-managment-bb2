@@ -8,8 +8,9 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserLoginDTO {
+public class UserLoginDTO   {
 
     @JsonIgnore
     private  Long userLoginId;
@@ -68,5 +69,16 @@ public class UserLoginDTO {
 
     public void setUser(UserDTO user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "UserLoginDTO{" +
+                "userLoginId=" + userLoginId +
+                ", password='" + password + '\'' +
+                ", username='" + username + '\'' +
+                ", rol=" + rol +
+                ", user=" + user +
+                '}';
     }
 }

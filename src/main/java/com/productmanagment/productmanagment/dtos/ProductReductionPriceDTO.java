@@ -61,4 +61,15 @@ public class ProductReductionPriceDTO {
     public void setProductId(Long productId) {
         this.productId = productId;
     }
+
+    @Override
+    public String toString() {
+        return "ProductReductionPriceDTO{" +
+                "productReductionPriceId=" + productReductionPriceId +
+                ", startDate=" + startDate +
+                ", productId=" + productId +
+                ", endDate=" + endDate +
+                ", reducedPrice=" + reducedPrice +
+                '}';
+    }
 }

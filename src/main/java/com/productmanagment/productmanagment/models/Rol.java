@@ -1,9 +1,22 @@
 package com.productmanagment.productmanagment.models;
 
 public enum Rol {
-    ADMIN(1,"Admin"),
-    USER(2,"User");
+    ADMIN(0,"Admin"),
+    USER(1,"User");
 
-    Rol(int i, String user) {
+    private String valueAsString;
+    private Integer valueAsInt;
+
+    Rol(int i, String strValue) {
+        this.valueAsInt = i;
+        this.valueAsString = strValue;
     }
+
+   /* public String getValueAsString() {
+        return valueAsString;
+    }
+
+    public Integer getValueAsInt() {
+        return valueAsInt;
+    }*/
 }

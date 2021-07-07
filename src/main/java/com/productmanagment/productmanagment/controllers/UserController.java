@@ -5,6 +5,7 @@ import com.productmanagment.productmanagment.dtos.UserDTO;
 import com.productmanagment.productmanagment.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,9 @@ import java.util.List;
 @Validated
 @RequestMapping("/api/users")
 public class UserController {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserService userService;
@@ -38,6 +42,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity Post(@RequestBody UserDTO userDTO){
+        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userDTO =  userService.add(userDTO);
         return  ResponseEntity.ok(new ApiResponse<>(userDTO));
     }

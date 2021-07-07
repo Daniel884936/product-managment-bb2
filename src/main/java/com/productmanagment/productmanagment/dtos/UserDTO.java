@@ -77,4 +77,15 @@ public class UserDTO {
         this.userRole = userRole;
     }
 
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "userId=" + userId +
+                ", name='" + name + '\'' +
+                ", surnames='" + surnames + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", userRole=" + userRole +
+                '}';
+    }
 }
