@@ -23,10 +23,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    UserLoginServiceImpl userDetailsService;
+    private UserLoginServiceImpl userDetailsService;
 
     @Autowired
-    JwtEntryPoint jwtEntryPoint;
+    private JwtEntryPoint jwtEntryPoint;
+
+    @Autowired
+    private CustomAccessDeniedHandler accessDeniedHandler;
 
     @Bean
     public JwtTokenFilter jwtTokenFilter(){
@@ -51,6 +54,7 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
                 "/configuration/security",
                 "/swagger-ui.html",
                 "/swagger-ui/**",
+                "/**",
                 "/webjars/**");
     }
 
@@ -73,6 +77,7 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)
+                .accessDeniedHandler(accessDeniedHandler)
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

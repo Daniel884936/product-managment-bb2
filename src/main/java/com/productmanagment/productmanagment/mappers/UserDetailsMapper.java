@@ -6,7 +6,6 @@ import com.productmanagment.productmanagment.models.UserLogin;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,7 +20,7 @@ public class UserDetailsMapper {
         Set<Rol> roles = new HashSet<>();
         roles.add(retrievedUser.getRol());
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        roles.forEach(rol -> authorities.add(new SimpleGrantedAuthority("ROLE_"+rol.name())));
+        roles.forEach(rol -> authorities.add(new SimpleGrantedAuthority(rol.name())));
         return authorities;
     }
 }
