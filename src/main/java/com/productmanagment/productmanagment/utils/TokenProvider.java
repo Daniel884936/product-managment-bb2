@@ -26,17 +26,17 @@ public class TokenProvider {
         return Jwts.builder().setSubject(principalUser.getUsername())
                 .claim(AUTHORITIES_KEY, authorities)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(generaTokenExpiration())
+                .setExpiration(generaExpirationToken())
                 .signWith(SignatureAlgorithm.HS512, SIGNING_KEY)
                 .compact();
     }
 
-    private static Date generaTokenExpiration(){
+    private static Date generaExpirationToken(){
         tokenExpiration = new Date(new Date().getTime() + ACCESS_TOKEN_VALIDITY_SECONDS * 1000);
         return tokenExpiration;
     }
 
-    public static Date getTokenExpiration(){
+    public static Date getExpirationToken(){
         return tokenExpiration;
     }
 

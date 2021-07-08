@@ -17,9 +17,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,14 +51,11 @@ public class ProductServiceImpl implements  ProductService{
     private  final String PRODUCT_PRICE_CAN_NOT_BE_LESS_THAN_ZERO = "PRODUCT PRICE CAN NOT BE LESS THA  ZERO";
 
 
-    //TODO COMPLETE THIS METHOD
-
-    //TODO Refactor this class---------------------------------------------------------------------------------------------------
     @Override
     public void add(ProductDTO productDTO) {
         productDTO.setProductId(null);
         productDTO.setState(ProductState.ACTIVE);
-
+        checkIfHaveMoreThatOneSupplier(productDTO.getSuppliers());
         if(productDTO.getProductCause() != null){
             throw new BusinessException("Product must not have a product cause because is always Active when created");
         }
@@ -74,33 +69,23 @@ public class ProductServiceImpl implements  ProductService{
         Product product = HibernateDTOAssemblerFactory.DEFAULT.getProductAssembler().Dto2Pojo(productDTO);
         checkTotalProductsReducePrice(product);
 
-        //set supplier and country to supplier
-
-        List<SupplierDTO> supplierDTOS = productDTO.getSuppliers();
-
-        if(supplierDTOS !=null){
-            for (int i = 0; i < supplierDTOS.size(); i++) {
-
-                if(supplierDTOS.get(i).getSupplierId() == null)
+        if(product.getSuppliers()!= null){
+            List<Supplier> suppliers = new ArrayList<>();
+            product.getSuppliers().forEach(supplier -> {
+                if(supplier.getSupplierId()==  null){
                     throw  new BadRequestException("product must to have a supplierId");
-
-                    //track supplier if have id to reference current supplierFromDb
-                    Supplier supplierReference = product.getSuppliers().get(i);
-                    Supplier supplierFromDb = supplierRepository.findById(supplierDTOS.get(i).getSupplierId())
-                            .orElseThrow(() -> new NotFoundException("Supplier not found"));
-                    product.getSuppliers().remove(supplierReference);
-                    product.getSuppliers().add(supplierFromDb);
-
-                if(supplierDTOS.get(i).getCountryId() == null)
-                    throw  new BadRequestException("supplier must have a countryId");
-
-                    Country country = countryRepository.findById(supplierDTOS.get(i).getCountryId())
-                            .orElseThrow(() ->
-                                    new NotFoundException("Country not found"));
-                    product.getSuppliers().get(i).setCountry(country);
-            }
+                }
+                Supplier supplierFromDb = supplierRepository.findById(supplier.getSupplierId())
+                        .orElseThrow(() ->new NotFoundException("Supplier not found") );
+                suppliers.add(supplierFromDb);
+            });
+            product.getSuppliers().clear();
+            product.setSuppliers(suppliers);
         }
-        User creator = userRepository.getById(productDTO.getUserId());
+
+        User creator = userRepository.findById(productDTO.getUserId())
+                .orElseThrow(() -> new NotFoundException("creator not found!"));
+
         checkCreatorProduct(creator);
         product.setCreationDate(new Date());
         product.setCreator(creator);
@@ -209,6 +194,9 @@ public class ProductServiceImpl implements  ProductService{
     //This method is to product Supplier
     private void processToUpdateSupplier(Product productFromDbTracking,
                                          List<SupplierDTO> supplierDTOS) {
+
+        checkIfHaveMoreThatOneSupplier(supplierDTOS);
+
         List<Supplier> suppliers = new ArrayList<>();
         if(supplierDTOS != null){
             supplierDTOS.forEach(supplierDTO -> {
@@ -226,6 +214,18 @@ public class ProductServiceImpl implements  ProductService{
         productFromDbTracking.setSuppliers(suppliers);
     }
 
+
+    private void checkIfHaveMoreThatOneSupplier(List<SupplierDTO> supplierDTOS){
+        if(supplierDTOS == null)
+            return;
+
+        Set<Long> suppliersId = new HashSet<>();
+        supplierDTOS.forEach(supplierDTO -> {
+            if(suppliersId.contains(supplierDTO.getSupplierId()))
+                throw new BadRequestException("Must not have more that one supplier");
+            suppliersId.add(supplierDTO.getSupplierId());
+        });
+    }
 
     //This method is to update productSata
     private void processToUpdateProductState(Product productFromDbTracking, ProductDTO productDTO){
