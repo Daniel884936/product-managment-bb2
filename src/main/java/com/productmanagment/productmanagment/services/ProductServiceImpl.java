@@ -50,9 +50,7 @@ public class ProductServiceImpl implements  ProductService{
     private final  String PRODUCT_DOES_NOT_EXIST  = "PRODUCT DOES NOT EXIST";
     private final  String PRODUCT_EXIST  = "PRODUCT ALREADY EXIST";
     private  final  String USER_DOES_NOT_EXIST = "USER DOES NOT EXIST";
-    private  final String CAN_NOT_CHANGE_PRODUCT_CODE = "CAN NOT CHANGE PRODUCT CODE";
     private  final String PRODUCT_PRICE_CAN_NOT_BE_LESS_THAN_ZERO = "PRODUCT PRICE CAN NOT BE LESS THA  ZERO";
-    private final  String TOTAL_PRODUCT_REDUCED_PRICE_CAN_NOT_BE_LESS_THAN_ZERO = "TOTAL PRODUCT REDUCED PRICE CAN NOT BE LESS THAN ZERO";
 
 
     //TODO COMPLETE THIS METHOD

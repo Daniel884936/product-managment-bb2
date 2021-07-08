@@ -9,7 +9,6 @@ public class ApiToken {
     private String userName;
     private String token;
     private Date expirationDate;
-    private Date createdAt;
 
     public String getUserName() {
         return userName;
@@ -23,9 +22,6 @@ public class ApiToken {
         return expirationDate;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
 
     public void setUserName(String userName) {
         this.userName = userName;
@@ -39,7 +35,4 @@ public class ApiToken {
         this.expirationDate = expirationDate;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
 }

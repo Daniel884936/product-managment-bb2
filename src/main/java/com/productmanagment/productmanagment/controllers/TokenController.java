@@ -29,8 +29,6 @@ public class TokenController {
 
     @PostMapping
     public ResponseEntity getTokenByCredentials(@RequestBody UserLoginDTO userLoginDTO){
-
-       // userLoginDTO = userLoginService.getLoginByCredentials(userLoginDTO);
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(userLoginDTO.getUsername(),userLoginDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -38,6 +36,7 @@ public class TokenController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         ApiToken apiToken = new ApiToken();
         apiToken.setToken(jwt);
+        apiToken.setExpirationDate(TokenProvider.getTokenExpiration());
         apiToken.setUserName(userDetails.getUsername());
         return ResponseEntity.ok(new ApiResponse<>(apiToken));
     }
