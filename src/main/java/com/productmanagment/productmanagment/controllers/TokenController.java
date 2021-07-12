@@ -15,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RequestMapping("/api/token")
 @RestController
 @Validated
@@ -28,7 +30,7 @@ public class TokenController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping
-    public ResponseEntity getTokenByCredentials(@RequestBody UserLoginDTO userLoginDTO){
+    public ResponseEntity getTokenByCredentials(@Valid @RequestBody UserLoginDTO userLoginDTO){
 
        // userLoginDTO = userLoginService.getLoginByCredentials(userLoginDTO);
         Authentication authentication = authenticationManager.authenticate(

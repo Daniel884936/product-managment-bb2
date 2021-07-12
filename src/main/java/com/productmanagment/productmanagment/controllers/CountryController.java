@@ -5,21 +5,18 @@ import com.productmanagment.productmanagment.dtos.CountryDTO;
 import com.productmanagment.productmanagment.services.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
 @RestController
 @RequestMapping("/api/countries")
-@CrossOrigin
 public class CountryController {
 
     @Autowired
     private CountryService countryService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity getAll(){
         List<CountryDTO> countryDTOS = countryService.getAll() ;
         return ResponseEntity.ok(new ApiResponse<>(countryDTOS));

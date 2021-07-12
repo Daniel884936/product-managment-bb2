@@ -39,6 +39,7 @@ public class SupplierServiceImpl implements SupplierService {
                 .orElseThrow(()-> new NotFoundException("Country does not exist"));
         supplier.setCountry(countryFromDb);
         supplierDTO.setSupplierId(supplier.getSupplierId());
+        supplierRepository.save(supplier);
     }
 
     @Override

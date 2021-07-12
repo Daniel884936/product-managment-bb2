@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -41,7 +42,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity Post(@RequestBody UserDTO userDTO){
+    public ResponseEntity Post(@Valid @RequestBody UserDTO userDTO){
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userDTO =  userService.add(userDTO);
         return  ResponseEntity.ok(new ApiResponse<>(userDTO));
