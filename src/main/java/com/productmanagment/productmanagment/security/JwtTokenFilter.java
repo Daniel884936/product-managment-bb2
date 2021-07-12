@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.productmanagment.productmanagment.utils.ApiConstants.HEADER_AUTHORIZATION_KEY;
+import static com.productmanagment.productmanagment.utils.ApiConstants.TOKEN_BEARER_PREFIX;
+
 public class JwtTokenFilter extends OncePerRequestFilter {
 
     private final static Logger logger = LoggerFactory.getLogger(JwtTokenFilter.class);
@@ -33,6 +36,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
                 UsernamePasswordAuthenticationToken auth =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+                //UsernamePasswordAuthenticationToken auth = TokenProvider.getAuthentication(token, userDetails);
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         } catch (Exception e){
@@ -42,9 +47,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     private String getToken(HttpServletRequest request){
-        String header = request.getHeader("Authorization");
-        if(header != null && header.startsWith("Bearer"))
-            return header.replace("Bearer ", "");
+        String header = request.getHeader(HEADER_AUTHORIZATION_KEY);
+        if(header != null && header.startsWith(TOKEN_BEARER_PREFIX))
+            return header.replace(TOKEN_BEARER_PREFIX, "");
         return null;
     }
 }

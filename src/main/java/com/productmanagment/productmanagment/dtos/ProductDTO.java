@@ -5,6 +5,7 @@ import com.productmanagment.productmanagment.models.ProductState;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.*;
 
@@ -17,8 +18,8 @@ public class ProductDTO {
     @NotNull
     private Long code;
 
-    @NotNull
-    @Length(min = 2, max = 30)
+
+    @Length( max = 30)
     private String name;
 
     @NotNull
@@ -27,7 +28,7 @@ public class ProductDTO {
 
     private Date creationDate;
 
-    @NotNull
+    @Min(0)
     private Double Price;
 
     private List<ProductReductionPriceDTO> productReductionPrices;

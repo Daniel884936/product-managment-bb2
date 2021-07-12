@@ -1,6 +1,6 @@
 package com.productmanagment.productmanagment.security;
 
-import com.productmanagment.productmanagment.services.UserLoginServiceImpl;
+import com.productmanagment.productmanagment.services.UserLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserLoginServiceImpl userDetailsService;
+    private UserLoginService userLoginService;
 
     @Autowired
     private JwtEntryPoint jwtEntryPoint;
@@ -42,18 +42,20 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userLoginService).passwordEncoder(passwordEncoder());
     }
 
+    //open urls
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/v2/api-docs",
+        web.ignoring().antMatchers("/v3/api-docs",
                 "/configuration/ui",
                 "/swagger-resources/**",
                 "/configuration/security",
+                "/api/token",
                 "/swagger-ui.html",
                 "/swagger-ui/**",
-                "/**",
+                "/h2-console/**",
                 "/webjars/**");
     }
 
@@ -72,7 +74,8 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/token", "/api/users/**" ).permitAll()
+                .antMatchers("/api/users/**").hasAnyAuthority("ADMIN")
+                //.antMatchers("/api/token").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)

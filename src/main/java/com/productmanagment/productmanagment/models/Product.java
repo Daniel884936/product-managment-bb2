@@ -23,15 +23,16 @@ public class Product implements Serializable {
     @Column(unique = true)
     @NotNull
     private Long code;
-    @NotNull
+
+
     private String name;
 
+    @NotNull
     private String description;
+
     @NotNull
     private Date creationDate;
 
-    @NotNull
-    @Min(0)
     private Double Price;
 
     @NotNull
